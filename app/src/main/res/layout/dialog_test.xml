@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+
+    <ImageView
+            android:id="@+id/iv_ad_bg"
+            android:src="@mipmap/youxiu"
+            android:scaleType="fitXY"
+            android:layout_height="210dp"
+            android:layout_width="match_parent"
+            />
+
+    <LinearLayout
+        android:id="@+id/ll_ad_test"
+        android:layout_centerInParent="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <TextView
+            android:fontFamily="sans-serif-smallcaps"
+            android:textSize="16sp"
+            android:text="你的成绩是："
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:id="@+id/tv_ad_test"
+            android:fontFamily="sans-serif-smallcaps"
+            android:textSize="20sp"
+            android:text="100"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:fontFamily="sans-serif-smallcaps"
+            android:textSize="16sp"
+            android:text="  分"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+
+
+
+</RelativeLayout>

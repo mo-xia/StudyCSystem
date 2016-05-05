@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+
+    <com.nit.weixi.study_c_system.views.MyRecyclerView
+        android:id="@+id/rl_timu"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    </com.nit.weixi.study_c_system.views.MyRecyclerView>
+
+</RelativeLayout>

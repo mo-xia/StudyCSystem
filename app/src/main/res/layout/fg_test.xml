@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:src="@mipmap/test_bg"
+        android:scaleType="centerCrop"/>
+
+    <RelativeLayout
+        android:id="@+id/rl_test"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+        android:layout_marginTop="150dp"
+        android:layout_centerHorizontal="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <TextView
+            android:padding="8dp"
+            android:text="题数:"
+            android:shadowRadius="8"
+            android:background="@color/colorTest"
+            android:textColor="@android:color/white"
+            android:textSize="20sp"
+            android:id="@+id/tv_test_tishu"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <EditText
+            android:hint="多少题"
+            android:layout_alignBaseline="@+id/tv_test_tishu"
+            android:inputType="number"
+            android:textColor="@color/colorTest"
+            android:padding="8dp"
+            android:background="@android:color/white"
+            android:layout_marginStart="5dp"
+            android:layout_toEndOf="@+id/tv_test_tishu"
+            android:id="@+id/et_test_tishu"
+            android:gravity="center_horizontal"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:layout_below="@+id/tv_test_tishu"
+            android:layout_marginTop="5dp"
+            android:padding="8dp"
+            android:text="时间:"
+            android:shadowRadius="8"
+            android:background="@color/colorTest"
+            android:textColor="@android:color/white"
+            android:textSize="20sp"
+            android:id="@+id/tv_test_shijian"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <EditText
+            android:hint="多少分钟"
+            android:layout_alignBaseline="@+id/tv_test_shijian"
+            android:inputType="number"
+            android:textColor="@color/colorTest"
+            android:padding="8dp"
+            android:background="@android:color/white"
+            android:layout_marginStart="5dp"
+            android:layout_toEndOf="@+id/tv_test_tishu"
+            android:id="@+id/et_test_shijian"
+            android:gravity="center_horizontal"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content" />
+
+    </RelativeLayout>
+
+    <Button
+        android:id="@+id/btn_test_start"
+        android:layout_alignEnd="@+id/rl_test"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="50dp"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:text="开始"
+        android:background="@drawable/shape_test_yuan"/>
+
+
+</RelativeLayout>

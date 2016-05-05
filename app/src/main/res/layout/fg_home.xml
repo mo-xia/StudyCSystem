@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto">
+
+    <android.support.v7.widget.CardView
+        android:layout_width="120dp"
+        android:layout_height="140dp"
+        android:layout_marginTop="90dp"
+        android:layout_marginLeft="40dp"
+
+        card_view:cardBackgroundColor="@color/colorTraining"
+        card_view:cardCornerRadius="8dp"
+        card_view:cardElevation="8dp"
+        >
+
+        <TextView
+            android:id="@+id/tv_training"
+            android:gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="章节练习" />
+
+    </android.support.v7.widget.CardView>
+
+    <android.support.v7.widget.CardView
+        android:layout_width="120dp"
+        android:layout_height="140dp"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="90dp"
+        android:layout_marginRight="40dp"
+        card_view:cardBackgroundColor="@color/colorTest"
+        card_view:cardCornerRadius="8dp"
+        card_view:cardElevation="8dp">
+        >
+
+        <TextView
+            android:id="@+id/tv_test"
+            android:gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="系统考试" />
+
+    </android.support.v7.widget.CardView>
+
+    <android.support.v7.widget.CardView
+        android:layout_width="120dp"
+        android:layout_height="140dp"
+        android:layout_alignParentLeft="true"
+        android:layout_marginBottom="90dp"
+        android:layout_marginLeft="40dp"
+        android:layout_alignParentBottom="true"
+        card_view:cardBackgroundColor="@color/colorTask"
+        card_view:cardCornerRadius="8dp"
+        card_view:cardElevation="8dp">
+        >
+
+        <TextView
+            android:id="@+id/tv_task"
+            android:gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="课堂作业" />
+
+    </android.support.v7.widget.CardView>
+
+    <android.support.v7.widget.CardView
+        android:layout_width="120dp"
+        android:layout_height="140dp"
+        android:layout_alignParentEnd="true"
+        android:layout_marginBottom="90dp"
+        android:layout_marginRight="40dp"
+        android:layout_alignParentBottom="true"
+        card_view:cardBackgroundColor="@color/colorData"
+        card_view:cardCornerRadius="8dp"
+        card_view:cardElevation="8dp">
+        >
+
+        <TextView
+            android:id="@+id/tv_data"
+            android:gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="学习资料" />
+
+    </android.support.v7.widget.CardView>
+</RelativeLayout>

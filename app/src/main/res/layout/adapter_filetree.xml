@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/btn_item_whit2grey">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_centerVertical="true"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/iv_icon"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginStart="16dp"
+            android:background="@drawable/ic_icon_document"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@android:color/black"
+            android:id="@+id/tv_title"
+            android:layout_marginBottom="10dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="4dp"
+            android:layout_marginTop="10dp"
+            android:text="Java 基础Java 基础Java 基础Java 基础Java 基础"
+            android:textSize="18sp"/>
+    </LinearLayout>
+
+</RelativeLayout>

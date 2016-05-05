@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:scaleType="fitXY"
+        android:src="@mipmap/zhangjiebg"
+        android:layout_width="match_parent"
+        android:layout_height="200dp" />
+
+    <LinearLayout
+        android:background="@color/colorZhangjieBg"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <RelativeLayout
+            android:layout_marginLeft="4dp"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <TextView
+                android:layout_centerHorizontal="true"
+                android:id="@+id/tv_zj_zongtishu"
+                android:text="0"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:layout_centerHorizontal="true"
+                android:layout_below="@+id/tv_zj_zongtishu"
+                android:layout_marginTop="10dp"
+                android:text="题数"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:layout_marginLeft="50dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <TextView
+                android:layout_centerHorizontal="true"
+                android:id="@+id/tv_zj_yiwancheng"
+                android:text="0"
+                android:textColor="@color/colorZhangjieFont"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:layout_centerHorizontal="true"
+                android:layout_below="@+id/tv_zj_yiwancheng"
+                android:layout_marginTop="10dp"
+                android:text="完成"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </RelativeLayout>
+
+        <!--<ImageView-->
+            <!--android:src="@mipmap/ic_help_white_24dp"-->
+            <!--android:layout_marginLeft="140dp"-->
+            <!--android:layout_gravity="center"-->
+            <!--android:layout_width="24dp"-->
+            <!--android:layout_height="24dp"-->
+            <!--android:background="@drawable/shape_change_yuan"/>-->
+        <TextView
+            android:id="@+id/start_timu"
+            android:layout_marginLeft="140dp"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:text="开始"
+            android:background="@drawable/shape_start_yuan"/>
+    </LinearLayout>
+    <ListView
+        android:id="@+id/lv_zhangjie"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:divider="@null" >
+
+    </ListView>
+
+</LinearLayout>

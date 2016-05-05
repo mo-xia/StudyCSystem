@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_home"
+            android:icon="@mipmap/ic_menu_home"
+            android:title="首页" />
+        <item
+            android:id="@+id/nav_question"
+            android:icon="@mipmap/ic_menu_question"
+            android:title="错题本" />
+        <item
+            android:id="@+id/nav_record"
+            android:icon="@mipmap/ic_menu_record"
+            android:title="成绩记录" />
+        <item
+            android:id="@+id/nav_answer"
+            android:icon="@mipmap/ic_menu_answer"
+            android:title="老师答疑" />
+    </group>
+
+    <item android:title="Application"
+
+        >
+        <menu>
+            <item
+                android:id="@+id/nav_night"
+                android:icon="@mipmap/ic_menu_nightly"
+                android:title="夜间模式" />
+            <item
+                android:id="@+id/nav_setting"
+                android:icon="@mipmap/ic_menu_settings"
+                android:title="设置与帮助" />
+        </menu>
+    </item>
+
+</menu>

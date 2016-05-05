@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+
+    <LinearLayout
+        android:background="@drawable/shape_data_yuan"
+        android:layout_centerInParent="true"
+        android:id="@+id/ll_download_c"
+        android:gravity="center"
+        android:layout_width="80dp"
+        android:layout_height="80dp">
+        <TextView
+            android:visibility="gone"
+            android:id="@+id/tv_download_c"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="18sp"
+            android:text="C语言"/>
+        <ImageView
+            android:id="@+id/iv_icon_download"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_file_download_white_36dp"/>
+
+    </LinearLayout>
+
+</RelativeLayout>

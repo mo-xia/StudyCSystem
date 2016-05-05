@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <Button
+        android:layout_above="@+id/btn_yindao_student"
+        android:layout_marginBottom="20dp"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/btn_yindao_teacher"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="我是老师"/>
+    <Button
+        android:layout_centerInParent="true"
+        android:id="@+id/btn_yindao_student"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="我是学生"/>
+
+
+</RelativeLayout>

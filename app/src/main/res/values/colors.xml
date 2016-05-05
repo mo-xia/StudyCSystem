@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#009688</color>
+    <color name="colorPrimaryDark">#009688</color>
+
+    <!-- 章节模块颜色-->
+    <color name="colorTraining">#EF5350</color>
+    <color name="colorTrainingDark">#EF5350</color>
+    <color name="base_color">#EF5350</color>
+    <color name="colorZhangjieBg">#F0F4C3</color>
+    <color name="colorZhangjieFont">#EF9A9A</color>
+
+    <color name="colorTest">#AB47BC</color>
+    <color name="colorTask">#5C6BC0</color>
+    <color name="colorData">#FFCA28</color>
+
+    <!-- 复习资料模块 -->
+    <color name="colorAccent">#FF4081</color>
+    <color name="grey">#FFE1E8EB</color>
+    <color name="white">#ffffff</color>
+    <color name="app_base_color">#0099CC</color>
+    <color name="blue_nav_bg_nomal">#2CA7EA</color>
+
+
+</resources>

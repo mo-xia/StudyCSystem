@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <include layout="@layout/bzzy_toolbar"/>
+
+    <EditText
+        android:inputType="datetime"
+        android:id="@+id/et_time_bzzy"
+        android:hint="请输入要求完成时间"
+        android:textSize="16sp"
+        android:textColorHint="@android:color/darker_gray"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:layout_marginStart="36dp"
+            android:id="@+id/tv_timu_checked"
+            android:text="7题"
+            android:gravity="center"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:textSize="22sp"
+            android:textColor="@color/colorPrimary"/>
+
+        <Button
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="50dp"
+            android:background="@drawable/shape_yuanjiao"
+            android:id="@+id/btn_finishi_bzzy"
+            android:text="完成布置"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </RelativeLayout>
+
+    <ExpandableListView
+        android:id="@id/android:list"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent" />
+</LinearLayout>
