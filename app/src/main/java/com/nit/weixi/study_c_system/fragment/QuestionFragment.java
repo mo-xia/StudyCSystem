@@ -1,6 +1,7 @@
 package com.nit.weixi.study_c_system.fragment;
 
 import android.app.Fragment;
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
@@ -10,9 +11,11 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.TextView;
 
 import com.nit.weixi.study_c_system.R;
+import com.nit.weixi.study_c_system.activity.OneTimuActivity;
 import com.nit.weixi.study_c_system.tools.DownUtils;
 import com.nit.weixi.study_c_system.tools.Tool;
 
@@ -47,12 +50,30 @@ public class QuestionFragment extends Fragment {
         rl.setLayoutManager(lm);
 
         MyQuestionAdapter adapter=new MyQuestionAdapter();
+
+        adapter.setOnItemClickLitener(new OnItemClickLitener() {
+            @Override
+            public void onItemClick(View view, int position) {
+                Intent intent=new Intent(getActivity(), OneTimuActivity.class);
+                intent.putExtra("tihao",cuotiList.get(position));
+                startActivity(intent);
+            }
+        });
         rl.setAdapter(adapter);
         return view;
     }
 
     class MyQuestionAdapter extends RecyclerView.Adapter{
         Map<String,List<String>> cuotiMap;
+
+        private OnItemClickLitener mOnItemClickListener;
+
+        public void setOnItemClickLitener(OnItemClickLitener mOnItemClickLitener)
+        {
+            this.mOnItemClickListener = mOnItemClickLitener;
+        }
+
+
         public MyQuestionAdapter() {
             cuotiMap= new HashMap<String, List<String>>();
             List<String> timuIdList=new ArrayList<String>();
@@ -84,8 +105,8 @@ public class QuestionFragment extends Fragment {
         }
 
         @Override
-        public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-            MyViewHolder mViewHolder= (MyViewHolder) holder;
+        public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
+            final MyViewHolder mViewHolder= (MyViewHolder) holder;
             if (position>0){
                 if (cuotiMap.get("timuzhangjie").get(position).equals(cuotiMap.get("timuzhangjie").get(position-1))){
                     mViewHolder.tvZhangjie.setVisibility(View.GONE);
@@ -98,12 +119,27 @@ public class QuestionFragment extends Fragment {
             String timuId=cuotiMap.get("timuid").get(position);
             String timuTitle=cuotiMap.get("timutitle").get(position);
             mViewHolder.tvTimuTitle.setText(timuId+"、"+timuTitle);
+
+            //如果设置了回调，则设置点击事件
+            if (mOnItemClickListener != null) {
+                mViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        mOnItemClickListener.onItemClick(mViewHolder.itemView, position);
+                    }
+                });
+            }
         }
 
         @Override
         public int getItemCount() {
             return cuotiList.size();
         }
+
+    }
+
+    public interface OnItemClickLitener {
+        void onItemClick(View view, int position);
     }
 
     class MyViewHolder extends RecyclerView.ViewHolder {

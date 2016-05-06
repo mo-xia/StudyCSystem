@@ -400,8 +400,8 @@ public class Tool {
      * @param cursor 查询得到的cursor
      * @return 一个timu的list集合
      */
-    public static ArrayList<TiMuBean> setTiMuBean(Cursor cursor) {
-        ArrayList<TiMuBean> timuList = new ArrayList<TiMuBean>();
+    public static List<TiMuBean> setTiMuBean(Cursor cursor) {
+        List<TiMuBean> timuList = new ArrayList<TiMuBean>();
         while (cursor.moveToNext()) {
             int tiHao = cursor.getInt(MyConstants.index_timuid);
             String zhubiaoti = cursor.getString(MyConstants.index_zhubiaoti);

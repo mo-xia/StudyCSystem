@@ -2,81 +2,10 @@
 <RelativeLayout android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:android="http://schemas.android.com/apk/res/android">
+        <include layout="@layout/timu_title"/>
 
-        <LinearLayout
-            android:id="@+id/ll_zhubiaoti"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:padding="5dp">
-
-            <TextView
-                android:id="@+id/tihao"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="22sp"
-                android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/zhubiaoti"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="22sp"
-                android:textStyle="bold" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="400dp"
-            android:layout_below="@+id/ll_zhubiaoti"
-            android:layout_marginTop="16dp"
-            android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/daimakuai"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="10dp"
-                android:textSize="18sp"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:visibility="gone" />
-
-            <RadioGroup
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="2"
-                android:gravity="center_vertical"
-                android:id="@+id/rg_select"
-                android:padding="10dp">
-
-                <RadioButton
-                    android:padding="5dp"
-                    android:id="@+id/rb_select_A"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-
-                <RadioButton
-                    android:padding="5dp"
-                    android:id="@+id/rb_select_B"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-
-                <RadioButton
-                    android:padding="5dp"
-                    android:id="@+id/rb_select_C"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-
-                <RadioButton
-                    android:padding="5dp"
-                    android:id="@+id/rb_select_D"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-            </RadioGroup>
-        </LinearLayout>
-
-        <LinearLayout
+        <include layout="@layout/timu_select"/>
+<!--        <LinearLayout
             android:visibility="gone"
             android:id="@+id/ll_dayi"
             android:orientation="vertical"
@@ -93,7 +22,7 @@
                 android:text="kdjksjdkskfjsdkfjdkh"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
-        </LinearLayout>
+        </LinearLayout>-->
 
         <LinearLayout
             android:id="@+id/ll_zuoti"

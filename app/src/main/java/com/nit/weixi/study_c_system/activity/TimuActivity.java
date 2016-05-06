@@ -30,6 +30,7 @@ import com.nit.weixi.study_c_system.data.TiMuBean;
 import com.nit.weixi.study_c_system.tools.DownUtils;
 import com.nit.weixi.study_c_system.tools.MyConstants;
 import com.nit.weixi.study_c_system.tools.RestClient;
+import com.nit.weixi.study_c_system.tools.TimuUtils;
 import com.nit.weixi.study_c_system.tools.Tool;
 import com.nit.weixi.study_c_system.views.MyRecyclerView;
 
@@ -41,6 +42,7 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import cz.msebera.android.httpclient.Header;
@@ -133,55 +135,13 @@ public class TimuActivity extends AppCompatActivity {
      */
     @Override
     protected void onDestroy() {
-        String path= DownUtils.getRootPath(this);
         super.onDestroy();
-        if (tag.equals("test")) {
-            if (chengjiList != null) {
-                File file3 = new File(path, "chengji.txt");
-                try {
-                    BufferedWriter bw3 = new BufferedWriter(new FileWriter(file3, true));
-                    for (int i = 0; i < chengjiList.size(); i++) {
-                        bw3.write(chengjiList.get(i) + "\r");
-                    }
-                    chengjiList.clear();
-                    bw3.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
+        if (tag.equals("test")&&chengjiList!=null) {
+            TimuUtils.writeFileFromList(this,"chengji.txt",chengjiList);
         }
-        try {
-            File file = new File(path, "cuoti.txt");
-            File file1 = new File(path, "tiwen.txt");
-            File file2 = new File(path, "zhengque.txt");
-            BufferedWriter bw = new BufferedWriter(new FileWriter(file, true));
-            BufferedWriter bw1 = new BufferedWriter(new FileWriter(file1, true));
-            BufferedWriter bw2 = new BufferedWriter(new FileWriter(file2, true));
-
-            //把相应的题目状态写进文件中
-            for (int j = 0; j < tiwenList.size(); j++) {
-                bw1.write(tiwenList.get(j) + "\r");
-            }
-            for (int a = 0; a < zhengqueList.size(); a++) {
-                bw2.write(zhengqueList.get(a) + "\r");
-            }
-            for (int i = 0; i < cuotiList.size(); i++) {
-//                System.out.println(cuotiList.size());
-//                System.out.println(cuotiList.get(i));
-                bw.write(cuotiList.get(i) + "\r");
-            }
-
-            //清空缓冲区和集合
-            bw.close();
-            bw1.close();
-            bw2.close();
-            cuotiList.clear();
-            tiwenList.clear();
-            zhengqueList.clear();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
+        TimuUtils.writeFileFromList(this,"cuoti.txt",cuotiList);
+        TimuUtils.writeFileFromList(this,"tiwen.txt",tiwenList);
+        TimuUtils.writeFileFromList(this,"zhengque.txt",zhengqueList);
     }
 
     class MyListAdapter extends RecyclerView.Adapter implements View.OnClickListener, RadioGroup.OnCheckedChangeListener {
@@ -190,7 +150,7 @@ public class TimuActivity extends AppCompatActivity {
          * 构造方法中获得要显示的数据
          */
         public MyListAdapter() {
-            timuList = getData();
+            timuList = (ArrayList<TiMuBean>) getData();
         }
 
         TiMuBean timu;  //声明一个题目
@@ -235,7 +195,7 @@ public class TimuActivity extends AppCompatActivity {
             viewHolder.zhubiaoti.setText(timu.getZhubiaoti());
 
             //设置代码块
-            setDaimakuai();
+            TimuUtils.setDaimakuai(timu, viewHolder.daimakuai);
 
             //设置选项内容
             viewHolder.rb_select_A.setText(timu.getSelectA());
@@ -244,9 +204,10 @@ public class TimuActivity extends AppCompatActivity {
             viewHolder.rb_select_D.setText(timu.getSelectD());
 
             //获得正确答案的id
-            daanStr = timu.getDaan();
-            daanId = zhengqueDaan(daanStr, viewHolder.rb_select_A, viewHolder.rb_select_B,
-                    viewHolder.rb_select_C, viewHolder.rb_select_D);
+            daanId = TimuUtils.getDaanId(timu, viewHolder.rb_select_A.getId(),
+                    viewHolder.rb_select_B.getId(),
+                    viewHolder.rb_select_C.getId(),
+                    viewHolder.rb_select_D.getId());
 
             //第一题时不显示上一题按钮
             if (position == 0) {
@@ -269,48 +230,6 @@ public class TimuActivity extends AppCompatActivity {
                     viewHolder.ll_next.setVisibility(View.GONE);
                     viewHolder.ll_jiaojuan.setVisibility(View.VISIBLE);
                 }
-            }
-        }
-
-        /**
-         * 设置代码块 若有代码块则显示，没有就不显示
-         */
-        public void setDaimakuai() {
-            if (timu.getDaimakuai() != null) {
-                viewHolder.daimakuai.setVisibility(View.VISIBLE);
-                String tempCode = timu.getDaimakuai(); // 获得代码块
-                //System.out.println(tempCode);
-                String[] split = tempCode.split("##"); //把代码块用“##”分开
-                //加入换行符
-                StringBuffer sb = new StringBuffer();
-                for (int i = 0; i < split.length; i++) {
-                    String sub = split[i] + "\n";
-                    //System.out.println(sub);
-                    sb.append(sub);
-                }
-                //System.out.println("sb: "+sb.toString());
-                //显示格式化之后的代码块
-                viewHolder.daimakuai.setText(sb.toString());
-            }
-        }
-
-        /**
-         * @param daanStr 正确答案 比如“A”
-         * @param selectA 选项A
-         * @param selectB 选项B
-         * @param selectC 选项C
-         * @param selectD 选项D
-         * @return 正确答案的选项的资源id
-         */
-        public int zhengqueDaan(String daanStr, RadioButton selectA, RadioButton selectB, RadioButton selectC, RadioButton selectD) {
-            if (selectA.getTag().equals(daanStr)) {
-                return selectA.getId();
-            } else if (selectB.getTag().equals(daanStr)) {
-                return selectB.getId();
-            } else if (selectC.getTag().equals(daanStr)) {
-                return selectC.getId();
-            } else {
-                return selectD.getId();
             }
         }
 
@@ -391,7 +310,7 @@ public class TimuActivity extends AppCompatActivity {
                         RestClient.get("/chengji", params, new AsyncHttpResponseHandler() {
                             @Override
                             public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
-                                Toast.makeText(context,"交卷成功",Toast.LENGTH_SHORT).show();
+                                Toast.makeText(context, "交卷成功", Toast.LENGTH_SHORT).show();
                             }
 
                             @Override
@@ -399,11 +318,11 @@ public class TimuActivity extends AppCompatActivity {
                                 Tool.backOnFailure(context, statusCode);
                             }
                         });
-                        Intent intent=new Intent();
-                        intent.putExtra("fenshu",fenshuStr);
-                        setResult(Activity.RESULT_OK,intent);
+                        Intent intent = new Intent();
+                        intent.putExtra("fenshu", fenshuStr);
+                        setResult(Activity.RESULT_OK, intent);
                         SharedPreferences.Editor lastfenshu = Tool.getEditor(context, "lastfenshu");
-                        lastfenshu.putString("fenshu",fenshuStr).commit();
+                        lastfenshu.putString("fenshu", fenshuStr).commit();
                         finish();
                     } else {
                         //弹出一个alertDialog
@@ -494,10 +413,6 @@ public class TimuActivity extends AppCompatActivity {
                 rb_select_B = (RadioButton) itemView.findViewById(R.id.rb_select_B);
                 rb_select_C = (RadioButton) itemView.findViewById(R.id.rb_select_C);
                 rb_select_D = (RadioButton) itemView.findViewById(R.id.rb_select_D);
-                rb_select_A.setTag("A");
-                rb_select_B.setTag("B");
-                rb_select_C.setTag("C");
-                rb_select_D.setTag("D");
                 daan = (Button) itemView.findViewById(R.id.btn_daan);
                 next = (Button) itemView.findViewById(R.id.btn_next);
                 woyaotiwen = (Button) itemView.findViewById(R.id.btn_woyaotiwen);
@@ -528,7 +443,7 @@ public class TimuActivity extends AppCompatActivity {
         /**
          * 从数据库获取数据，并储存到list中
          */
-        public ArrayList<TiMuBean> getData() {
+        public List<TiMuBean> getData() {
             SQLiteDatabase db = Tool.getDataBase(context);
             Cursor cursor = db.query(MyConstants.TABLE_TIMU, null, seletion, selectionArgs, null, null, null);
 

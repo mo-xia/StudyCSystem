@@ -78,6 +78,9 @@
         <activity android:name=".activity.BuzhiCuotiActivity">
 
         </activity>
+        <activity android:name=".activity.OneTimuActivity">
+
+        </activity>
     </application>
 
 </manifest>
