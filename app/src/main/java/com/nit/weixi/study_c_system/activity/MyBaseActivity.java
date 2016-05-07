@@ -3,7 +3,6 @@ package com.nit.weixi.study_c_system.activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
-import android.nfc.Tag;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -11,7 +10,6 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -20,14 +18,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.nit.weixi.study_c_system.R;
-import com.nit.weixi.study_c_system.data.MyApplication;
 import com.nit.weixi.study_c_system.tools.MyConstants;
 import com.nit.weixi.study_c_system.tools.Tool;
 
 /**
  * Created by weixi on 2016/3/30.
  */
-public class MyBaseActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+public abstract class MyBaseActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     String fmName;
 
@@ -98,12 +95,17 @@ public class MyBaseActivity extends AppCompatActivity implements NavigationView.
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (id == R.id.about) {
+            Intent intent=new Intent(this,AboutActivity.class);
+            intent.putExtra("tag",getTag());
+            startActivity(intent);
             return true;
         }
 
         return super.onOptionsItemSelected(item);
     }
+
+    abstract String getTag();
 
     /**
      * 处理抽屉上的点击事件，做响应逻辑后关闭抽屉
@@ -129,7 +131,7 @@ public class MyBaseActivity extends AppCompatActivity implements NavigationView.
             } else {
                 Tool.setFragment(this, MyConstants.FRAGMENT_HOME);
             }
-
+            fmName=MyConstants.FRAGMENT_HOME;
         } else if (id == R.id.nav_question) {
             fmName = MyConstants.FRAGMENT_WRONG_QUESTION;
             Tool.setFragment(this, fmName);
@@ -150,6 +152,5 @@ public class MyBaseActivity extends AppCompatActivity implements NavigationView.
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
-
 
 }

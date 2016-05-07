@@ -1,6 +1,7 @@
 package com.nit.weixi.study_c_system.data;
 
 import android.app.Application;
+import android.content.Context;
 import android.graphics.Bitmap;
 
 import com.nit.weixi.study_c_system.activity.WelcomeActivity;

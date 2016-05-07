@@ -18,26 +18,27 @@ import java.io.File;
 import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 
 /**
  * Created by weixi on 2016/4/2.
  */
 public class ZjCursorAdapter extends CursorAdapter {
 
-    HashSet<String> cuotiSet;
-    HashSet<String> zhengqueSet;
+    List<String> cuotiList;
+    List<String> zhengqueList;
 
     public ZjCursorAdapter(Context context, Cursor c) {
         super(context, c);
-        cuotiSet = new HashSet<>();
-        zhengqueSet = new HashSet<>();
-        Tool.getSet(context,cuotiSet,zhengqueSet);
+
+        cuotiList = Tool.getListFromFile(context,"cuoti.txt");
+        zhengqueList = Tool.getListFromFile(context,"zhengque.txt");
     }
 
     public  int getWanchengNum(Cursor cursor) {
         HashSet<String> wanchengSet = new HashSet<>();
-        wanchengSet.addAll(cuotiSet);
-        wanchengSet.addAll(zhengqueSet);
+        wanchengSet.addAll(cuotiList);
+        wanchengSet.addAll(zhengqueList);
         int num=0; //该章节中已完成的题数，初始为0
         while (cursor.moveToNext()){
             int timuId = cursor.getInt(0); //该章节拥有的题目的题号
@@ -74,11 +75,11 @@ public class ZjCursorAdapter extends CursorAdapter {
     public void bindView(View view, Context context, Cursor cursor) {
         ViewHolder holder = (ViewHolder) view.getTag();
         int timuId = cursor.getInt(MyConstants.index_timuid);
-        if (cuotiSet.contains(timuId + "")) {
+        if (cuotiList.contains(timuId + "")) {
             holder.iconNormal.setVisibility(View.GONE);
             holder.iconWrong.setVisibility(View.VISIBLE);
         }
-        if (zhengqueSet.contains(timuId + "")) {
+        if (zhengqueList.contains(timuId + "")) {
             holder.iconNormal.setVisibility(View.GONE);
             holder.iconWrong.setVisibility(View.GONE);
             holder.iconRight.setVisibility(View.VISIBLE);

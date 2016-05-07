@@ -16,10 +16,13 @@ import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
 import android.graphics.Rect;
 import android.graphics.RectF;
+import android.os.Build;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.widget.Toast;
 
 import com.nit.weixi.study_c_system.activity.BuzhiCuotiActivity;
+import com.nit.weixi.study_c_system.data.MyApplication;
 import com.nit.weixi.study_c_system.data.MySqliteHelper;
 import com.nit.weixi.study_c_system.data.TiMuBean;
 import com.nit.weixi.study_c_system.fragment.FragmentFactory;
@@ -38,6 +41,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
@@ -97,52 +101,28 @@ public class Tool {
     }
 
     /**
-     * 获得正确和错题集合
+     * 从文件获得list
      * @param context 上下文
-     * @param cuotiSet 错题集合
-     * @param zhengqueSet  正确集合
+     * @param name 文件名字
+     * @return 获得的list
      */
-    public static void getSet(Context context, HashSet<String> cuotiSet, HashSet<String> zhengqueSet) {
-        File cuotiFile = new File(DownUtils.getRootPath(context), "cuoti.txt");
-        File zhengqueFile = new File(DownUtils.getRootPath(context), "zhengque.txt");
-        try {
-            BufferedReader br = new BufferedReader(new FileReader(cuotiFile));
-            BufferedReader br1 = new BufferedReader(new FileReader(zhengqueFile));
-            boolean hasRead = true;
-            while (hasRead) {
-                String cuoti = br.readLine();
-                // System.out.println("cuoti: " + cuoti);
-                if (cuoti == null) {
-                    hasRead = false;
-                } else {
-                    cuotiSet.add(cuoti);
-                }
-            }
-            boolean hasRead1 = true;
-            while (hasRead1) {
-                String zhengque = br1.readLine();
-                // System.out.println("zhengque: " + zhengque);
-                if (zhengque == null) {
-                    hasRead1 = false;
-                } else {
-                    zhengqueSet.add(zhengque);
-                }
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-
     public static List<String> getListFromFile(Context context,String name){
         List<String> myList=new ArrayList<String>();
         String path= DownUtils.getRootPath(context);
         File file=new File(path,name);
+        if (file.exists()){
+        return getListFromFile(myList,file);
+        }else {
+            return myList;
+        }
+    }
+
+    public static List<String> getListFromFile(List<String> myList,File file){
         try {
             BufferedReader br=new BufferedReader(new FileReader(file));
-            String read;
-            while ((read=br.readLine())!=null) {
-                myList.add(read);
+                String read;
+                while ((read=br.readLine())!=null) {
+                    myList.add(read);
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -250,8 +230,35 @@ public class Tool {
     }
 
     /**
+     * 获取十六进制的颜色代码.例如  "#6E36B4" , For HTML ,
+     * @param x 避免颜色过深，添加的一个最小值
+     * @return String
+     */
+    public static String getRandColorCode(int x){
+        String r,g,b;
+        Random random = new Random();
+        r = Integer.toHexString(x+random.nextInt(256-x)).toUpperCase();
+        g = Integer.toHexString(x+random.nextInt(256-x)).toUpperCase();
+        b = Integer.toHexString(x+random.nextInt(256-x)).toUpperCase();
+
+        r = r.length()==1 ? "0" + r : r ;
+        g = g.length()==1 ? "0" + g : g ;
+        b = b.length()==1 ? "0" + b : b ;
+
+        return r+g+b;
+    }
+
+    /**
+     * 获取一个随机颜色
+     * @return 随机颜色值
+     */
+    public static int getRandomcolor(){
+        Random random = new Random();
+        return 0xff000000 | random.nextInt(0x00ffffff);
+    }
+
+    /**
      * 请求网络失败时返回
-     * @param context 上下文
      * @param statusCode  状态码
      */
     public static void backOnFailure(Context context,int statusCode) {

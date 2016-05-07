@@ -187,6 +187,9 @@ public class TimuActivity extends AppCompatActivity {
             viewHolder = (MyViewHolder) holder;
             ischecked = true;
 
+            //获得正确答案
+            daanStr = timu.getDaan();
+
             //设置题号
             String timuId = position + 1 + "、";
             viewHolder.tihao.setText(timuId);

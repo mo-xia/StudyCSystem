@@ -150,8 +150,8 @@ public class SecFragment extends Fragment implements View.OnClickListener {
                     Tool.saveBitmap(getActivity(),bitmap);
 
                 editor.putString("shenfen","student").commit();
-                startActivity(intent);
-                getActivity().finish();
+                    startActivity(intent);
+                    getActivity().finish();
                 }
                 break;
         }
@@ -178,6 +178,7 @@ public class SecFragment extends Fragment implements View.OnClickListener {
                     Toast.makeText(getActivity(),"登陆成功",Toast.LENGTH_SHORT).show();
                     editor.putString("shenfen","teacher").commit();
                     startActivity(new Intent(getActivity(), TeacherClientActivity.class));
+                    getActivity().finish();
                 }else {
                     Toast.makeText(getActivity(),"密码错误，登陆失败",Toast.LENGTH_SHORT).show();
                 }

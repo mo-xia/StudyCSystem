@@ -139,9 +139,9 @@ public class FileTreeActivity extends AppCompatActivity implements AdapterView.O
                         + data.get(position).getName();
                 //System.out.println("link: "+link);
                 String title = DownUtils.getResouceTitle(data.get(position).getRname());
-                Intent intent = new Intent(this, DetailActivity.class);
-                intent.putExtra(DetailActivity.EXTRA_LINK, link);
-                intent.putExtra(DetailActivity.EXTRA_TITLE, title);
+                Intent intent = new Intent(this, DetailDataActivity.class);
+                intent.putExtra(DetailDataActivity.EXTRA_LINK, link);
+                intent.putExtra(DetailDataActivity.EXTRA_TITLE, title);
                 //开启详情界面activity
                 startActivity(intent);
             }

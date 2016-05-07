@@ -74,7 +74,7 @@ public class TaskFragment extends Fragment implements View.OnClickListener {
             public void onFailure(int statusCode, Header[] headers, Throwable throwable, File file) {
                 Tool.backOnFailure(getActivity(), statusCode);
                 SharedPreferences lastfenshuSP = getActivity().getSharedPreferences("lastfenshu", Context.MODE_PRIVATE);
-                String lastFenshu = lastfenshuSP.getString("fenshu", "默认分数");
+                String lastFenshu = lastfenshuSP.getString("fenshu", "xx");
                 tvGo.setText("本次作业 "+lastFenshu+"分");
                 tvGo.setEnabled(false);
             }
@@ -105,10 +105,11 @@ public class TaskFragment extends Fragment implements View.OnClickListener {
                 if (editor != null) {
                     editor.putString("studate", zuoYeBean.getDate()).commit();
                 }
-                tvCurDate.setText(zuoYeBean.getDate());
-                tvTime.setText(zuoYeBean.getTime());
-                tvNumber.setText(zuoYeBean.getTimulist().size() + "");
-
+                if (zuoYeBean!=null) {
+                    tvCurDate.setText(zuoYeBean.getDate());
+                    tvTime.setText(zuoYeBean.getTime());
+                    tvNumber.setText(zuoYeBean.getTimulist().size() + "");
+                }
             }
         });
     }

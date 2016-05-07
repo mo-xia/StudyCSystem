@@ -2,6 +2,7 @@ package com.nit.weixi.study_c_system.activity;
 
 import android.os.Bundle;
 
+import com.nit.weixi.study_c_system.R;
 import com.nit.weixi.study_c_system.tools.MyConstants;
 import com.nit.weixi.study_c_system.tools.RestClient;
 import com.nit.weixi.study_c_system.tools.Tool;
@@ -15,4 +16,10 @@ public class DataActivity extends MyBaseActivity{
         super.onCreate(savedInstanceState);
         Tool.setFragment(this, MyConstants.FRAGMENT_DATA);
     }
+
+    @Override
+    String getTag() {
+        return MyConstants.FRAGMENT_DATA;
+    }
+
 }

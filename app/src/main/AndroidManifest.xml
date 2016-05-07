@@ -28,27 +28,27 @@
         <activity android:name=".activity.MainActivity"
             android:launchMode="singleTask"
             android:label="@string/app_name"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:theme="@style/AppTheme.Transparent">
 
         </activity>
         <activity android:name=".activity.TrainingActivity"
             android:label="@string/title_training"
-            android:theme="@style/TrainingTheme.NoActionBar">
+            android:theme="@style/TrainingTheme.Transparent">
 
         </activity>
         <activity android:name=".activity.TestActivity"
             android:label="@string/title_test"
-            android:theme="@style/TestTheme.NoActionBar">
+            android:theme="@style/TestTheme.Transparent">
 
         </activity>
         <activity android:name=".activity.TaskActivity"
             android:label="@string/title_task"
-            android:theme="@style/TaskTheme.NoActionBar">
+            android:theme="@style/TaskTheme.Transparent">
 
         </activity>
         <activity android:name=".activity.DataActivity"
             android:label="@string/title_data"
-            android:theme="@style/DataTheme.NoActionBar">
+            android:theme="@style/DataTheme.Transparent">
 
         </activity>
         <activity android:name=".activity.ZhangJieActivity"
@@ -62,12 +62,12 @@
         </activity>
 
         <activity android:name=".activity.FileTreeActivity"
-            android:theme="@style/FileTree.Transparent">
+            android:theme="@style/DataTheme.NoActionBar">
 
         </activity>
 
-        <activity android:name=".activity.DetailActivity"
-            android:theme="@style/FileTree.Transparent">
+        <activity android:name=".activity.DetailDataActivity"
+            android:theme="@style/DataTheme.NoActionBar">
 
         </activity>
 
@@ -78,7 +78,14 @@
         <activity android:name=".activity.BuzhiCuotiActivity">
 
         </activity>
-        <activity android:name=".activity.OneTimuActivity">
+        <activity android:name=".activity.OneTimuActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar">
+
+        </activity>
+        <activity android:name=".activity.StartAnswerActivity">
+
+        </activity>
+        <activity android:name=".activity.AboutActivity">
 
         </activity>
     </application>

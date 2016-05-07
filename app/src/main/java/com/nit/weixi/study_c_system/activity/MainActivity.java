@@ -6,6 +6,7 @@ import android.view.KeyEvent;
 
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
+import com.nit.weixi.study_c_system.R;
 import com.nit.weixi.study_c_system.tools.DownUtils;
 import com.nit.weixi.study_c_system.tools.MyConstants;
 import com.nit.weixi.study_c_system.tools.RestClient;
@@ -29,6 +30,11 @@ public class MainActivity extends MyBaseActivity {
         super.onCreate(savedInstanceState);
         fmName = MyConstants.FRAGMENT_HOME;
         Tool.setFragment(this, MyConstants.FRAGMENT_HOME);
+    }
+
+    @Override
+    String getTag() {
+        return MyConstants.FRAGMENT_HOME;
     }
 
     @Override
@@ -75,20 +81,13 @@ public class MainActivity extends MyBaseActivity {
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if (keyCode == KeyEvent.KEYCODE_BACK) {
-            if (!fmName.equals("home")) {
+        if (keyCode == KeyEvent.KEYCODE_BACK&&!fmName.equals("home")) {
                 finish();
                 Intent intent = new Intent(this, MainActivity.class);
                 startActivity(intent);
                 return true;
-            } else {
-                return super.onKeyDown(keyCode, event);
-            }
-        } else {
-            return super.onKeyDown(keyCode, event);
         }
-
+            return super.onKeyDown(keyCode, event);
     }
-
 
 }

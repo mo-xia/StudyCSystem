@@ -9,11 +9,8 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.text.TextUtilsCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.KeyEvent;
-import android.view.MenuItem;
 import android.webkit.ConsoleMessage;
 import android.webkit.WebChromeClient;
 import android.webkit.WebView;
@@ -37,13 +34,13 @@ import cz.msebera.android.httpclient.Header;
  * @author jayin
  */
 @SuppressLint("SetJavaScriptEnabled")
-public class DetailActivity extends AppCompatActivity
+public class DetailDataActivity extends MyBackActivity
         implements SwipeRefreshLayout.OnRefreshListener {
     public static final String EXTRA_LINK = "link";
     public static final String EXTRA_TITLE = "title";
 
-    ActionBar mActionBar;
     Toolbar mToolbar;
+
     SwipeRefreshLayout swipeRefreshLayout;
     WebView webview;
     String link;// 接受2种URL,一种是url,另一种文件路径path
@@ -87,11 +84,8 @@ public class DetailActivity extends AppCompatActivity
         webview.setWebViewClient(new MyWebViewClient());
 
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(mToolbar);
-        mActionBar = getSupportActionBar();
-        mActionBar.setDisplayHomeAsUpEnabled(true);
-        mActionBar.setTitle(title);
 
+        setBackActionBar(title,mToolbar); // 设置返回ActionBar相关
         onRefresh();
 
     }
@@ -154,22 +148,6 @@ public class DetailActivity extends AppCompatActivity
                     null);
         } catch (IOException e) {
             e.printStackTrace();
-        }
-
-    }
-
-    /**
-     * 返回图标的点击事件是否触发
-     * @param item 返回图标item
-     * @return 显示
-     */
-    @Override public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                finish();
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
         }
 
     }
