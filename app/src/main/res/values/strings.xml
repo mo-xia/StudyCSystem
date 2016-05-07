@@ -4,7 +4,7 @@
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
-    <string name="action_settings">Settings</string>
+    <string name="about">关于</string>
     <string name="search">search</string>
     <string name="zhangjiebg">当你的才华还撑不起你的梦想时，你就应该静下心来学习。</string>
     <string name="title_training">章节练习</string>

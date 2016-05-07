@@ -1,52 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:cardview="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
+<FrameLayout
+    android:id="@+id/fl_home_fragment"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
-    <LinearLayout
-        android:layout_gravity="center_horizontal"
-        android:layout_width="wrap_content"
-        android:layout_weight="1"
-        android:paddingBottom="30dp"
-        android:layout_height="0dp">
-        <android.support.v7.widget.CardView
-            android:id="@+id/cv_answer"
-            android:layout_gravity="bottom"
-            cardview:cardBackgroundColor="@color/colorPrimary"
-            cardview:cardElevation="5dp"
-            cardview:cardCornerRadius="8dp"
-            android:layout_width="180dp"
-            android:layout_height="120dp">
-            <TextView
-                android:text="我要答疑"
-                android:layout_gravity="center"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-        </android.support.v7.widget.CardView>
-    </LinearLayout>
-
-    <LinearLayout
-        android:paddingTop="16dp"
-        android:layout_gravity="center_horizontal"
-        android:layout_width="wrap_content"
-        android:layout_weight="1"
-        android:layout_height="0dp">
-    <android.support.v7.widget.CardView
-        android:id="@+id/cv_task"
-        android:layout_marginTop="50dp"
-        android:layout_gravity="center_horizontal"
-        cardview:cardBackgroundColor="@color/colorPrimary"
-        cardview:cardElevation="5dp"
-        cardview:cardCornerRadius="8dp"
-        android:layout_width="180dp"
-        android:layout_height="120dp">
-        <TextView
-            android:text="布置作业"
-            android:layout_gravity="center"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-    </android.support.v7.widget.CardView>
-    </LinearLayout>
-</LinearLayout>
+    android:layout_height="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android"/>

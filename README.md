@@ -11,7 +11,7 @@ Gradle version 2.1.0
 
 ##项目结构
 * 服务器：该项目的服务器是一个依托Android Service的手机app。链接如下[https://github.com/luofeng0xia/ResourceServer/](https://github.com/luofeng0xia/ResourceServer/ "StudyCSystem服务器")
-* 客户端：既本项目。
+* 客户端：既本项目。客户端有学生和老师之分，老师登陆密码为123456。
 
 ##项目运行
 1. 在运行本程序之前，应当先启动服务器，服务器相关部署请看跳转到服务器项目。
