@@ -11,7 +11,6 @@ import android.view.MenuItem;
 
 import com.nit.weixi.study_c_system.R;
 import com.nit.weixi.study_c_system.fragment.HomeFragment;
-import com.nit.weixi.study_c_system.tools.TeacherUtils;
 
 /**
  * 老师端
@@ -21,7 +20,11 @@ public class TeacherClientActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        TeacherUtils.setTeacherFragment(this,new HomeFragment(),"teacher");
+        setContentView(R.layout.acty_teacher);
+        FragmentManager fm = getFragmentManager();
+        FragmentTransaction ft = fm.beginTransaction();
+        Fragment fragment=new HomeFragment();
+        ft.add(R.id.fl_home_fragment,fragment,"teacher").commit();
     }
 
     @Override

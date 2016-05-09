@@ -10,7 +10,6 @@ import android.widget.TextView;
 
 import com.nit.weixi.study_c_system.activity.BuzhiCuotiActivity;
 import com.nit.weixi.study_c_system.activity.DataActivity;
-import com.nit.weixi.study_c_system.activity.StartAnswerActivity;
 import com.nit.weixi.study_c_system.activity.TaskActivity;
 import com.nit.weixi.study_c_system.activity.TestActivity;
 import com.nit.weixi.study_c_system.activity.TrainingActivity;
@@ -77,7 +76,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         Class<?> cls;
         switch (v.getId()){
             case R.id.tv1:
-                cls=tag.equals("teacher")? StartAnswerActivity.class:TrainingActivity.class;
+                cls=tag.equals("teacher")?null:TrainingActivity.class;
                 startActivityFromHome(cls);
                 break;
             case R.id.tv2:
