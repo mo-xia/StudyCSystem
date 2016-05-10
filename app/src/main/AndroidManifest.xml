@@ -88,6 +88,15 @@
         <activity android:name=".activity.AboutActivity">
 
         </activity>
+        <activity android:name=".activity.StuChengjiActivity">
+
+        </activity>
+        <activity android:name=".activity.DetailChengjiActivity">
+
+        </activity>
+        <activity android:name=".activity.UpdateTikuActivity">
+
+        </activity>
     </application>
 
 </manifest>

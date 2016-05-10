@@ -10,7 +10,7 @@ import android.view.MenuItem;
 /**
  * Created by weixi on 2016/5/9.
  */
-public class MyBackActivity extends AppCompatActivity{
+public class MyBackActivity extends AppCompatActivity {
     ActionBar mActionBar;
 
     @Override
@@ -18,8 +18,10 @@ public class MyBackActivity extends AppCompatActivity{
         super.onCreate(savedInstanceState);
     }
 
-    protected void setBackActionBar(String title,Toolbar mToolbar){
-        setSupportActionBar(mToolbar);
+    protected void setBackActionBar(String title, Toolbar mToolbar) {
+        if (mToolbar != null) {
+            setSupportActionBar(mToolbar);
+        }
         mActionBar = getSupportActionBar();
         mActionBar.setDisplayHomeAsUpEnabled(true);
         mActionBar.setTitle(title);
@@ -30,7 +32,8 @@ public class MyBackActivity extends AppCompatActivity{
      * @param item 返回图标item
      * @return 显示
      */
-    @Override public boolean onOptionsItemSelected(MenuItem item) {
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
                 finish();
@@ -38,6 +41,5 @@ public class MyBackActivity extends AppCompatActivity{
             default:
                 return super.onOptionsItemSelected(item);
         }
-
     }
 }

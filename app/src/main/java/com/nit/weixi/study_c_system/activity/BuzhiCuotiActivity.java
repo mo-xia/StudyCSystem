@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -17,7 +18,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.Toolbar;
 
-import com.google.gson.JsonArray;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 import com.nit.weixi.study_c_system.R;
@@ -28,7 +28,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -55,10 +54,11 @@ public class BuzhiCuotiActivity extends ExpandableListActivity implements View.O
         setContentView(R.layout.acty_buzhicuoti);
         db = Tool.getDataBase(this);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        toolbar.setTitle("布置课堂作业");
         toolbar.setTitleTextColor(Color.WHITE);
         setActionBar(toolbar);
-
+        getActionBar().setDisplayHomeAsUpEnabled(true);
+        getActionBar().setHomeAsUpIndicator(R.drawable.ic_arrow_back_white_24dp);
+        getActionBar().setTitle("布置作业");
         if (db != null) {
             cursor = db.query("zhangjie", null, null, null, null, null, null);
         }
@@ -66,11 +66,27 @@ public class BuzhiCuotiActivity extends ExpandableListActivity implements View.O
         adapter = new MyExpandableListAdapter(cursor, this);
         setListAdapter(adapter);
 
-        Button finishBZ = (Button) findViewById(R.id.btn_finishi_bzzy);
+        TextView finishBZ = (TextView) findViewById(R.id.tv_finishi_bzzy);
         finishBZ.setOnClickListener(this);
         tvCheckedNum = (TextView) findViewById(R.id.tv_timu_checked);
         tvCheckedNum.setText(bzzyList.size() + "题");
         etTime = (EditText) findViewById(R.id.et_time_bzzy);
+    }
+
+    /**
+     * 返回图标的点击事件是否触发
+     * @param item 返回图标item
+     * @return 显示
+     */
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                finish();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
     @Override

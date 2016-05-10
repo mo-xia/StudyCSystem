@@ -230,6 +230,38 @@ public class Tool {
     }
 
     /**
+     * 从一个list.toString获得list
+     * @param s String
+     * @return list
+     */
+    public static List<String> getListFromString(String s){
+        s=s.replace("[","");
+        s=s.replace("]","");
+        String[] strings = s.split(",");
+        List<String> list=new ArrayList<String>();
+        for (String str:strings
+                ) {
+            list.add(str.trim());
+        }
+        return list;
+    }
+
+    /**
+     * 从资源获取颜色
+     * @param context 上下文
+     * @param id 颜色的资源id
+     * @return color
+     */
+    public static  int getColor(Context context, int id) {
+        final int version = Build.VERSION.SDK_INT;
+        if (version >= 23) {
+            return ContextCompat.getColor(context, id);
+        } else {
+            return context.getResources().getColor(id);
+        }
+    }
+
+    /**
      * 获取十六进制的颜色代码.例如  "#6E36B4" , For HTML ,
      * @param x 避免颜色过深，添加的一个最小值
      * @return String
