@@ -11,12 +11,10 @@ import android.widget.TextView;
 import com.nit.weixi.study_c_system.activity.BuzhiCuotiActivity;
 import com.nit.weixi.study_c_system.activity.DataActivity;
 import com.nit.weixi.study_c_system.activity.StartAnswerActivity;
-import com.nit.weixi.study_c_system.activity.StuChengjiActivity;
 import com.nit.weixi.study_c_system.activity.TaskActivity;
 import com.nit.weixi.study_c_system.activity.TestActivity;
 import com.nit.weixi.study_c_system.activity.TrainingActivity;
 import com.nit.weixi.study_c_system.R;
-import com.nit.weixi.study_c_system.activity.UpdateTikuActivity;
 
 /**
  * 主页Fragment
@@ -87,11 +85,11 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
                 startActivityFromHome(cls);
                 break;
             case R.id.tv3:
-                cls=tag.equals("teacher")? StuChengjiActivity.class:TaskActivity.class;
+                cls=tag.equals("teacher")?null:TaskActivity.class;
                 startActivityFromHome(cls);
                 break;
             case R.id.tv4:
-                cls=tag.equals("teacher")? UpdateTikuActivity.class:DataActivity.class;
+                cls=tag.equals("teacher")?null:DataActivity.class;
                 startActivityFromHome(cls);
                 break;
         }

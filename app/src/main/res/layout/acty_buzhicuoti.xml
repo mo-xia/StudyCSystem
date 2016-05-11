@@ -25,15 +25,12 @@
             android:textSize="22sp"
             android:textColor="@color/colorPrimary"/>
 
-        <TextView
-            android:textColor="@android:color/primary_text_dark"
-            android:padding="5dp"
-            android:gravity="center"
+        <Button
             android:layout_alignParentEnd="true"
             android:layout_marginEnd="50dp"
-            android:background="@drawable/shape_yuan"
-            android:id="@+id/tv_finishi_bzzy"
-            android:text="完成"
+            android:background="@drawable/shape_yuanjiao"
+            android:id="@+id/btn_finishi_bzzy"
+            android:text="完成布置"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
     </RelativeLayout>
