@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center_vertical"
+    android:orientation="horizontal"
+    android:paddingStart="16dp"
+    android:paddingEnd="16dp"
+    android:paddingTop="8dp"
+    android:paddingBottom="8dp"
+    >
+
+    <LinearLayout
+        android:gravity="center_horizontal"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1">
+
+        <TextView
+            android:padding="5dp"
+            android:id="@+id/tv_stu_id"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="2012103206" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:gravity="center_horizontal"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1">
+
+    <TextView
+        android:padding="5dp"
+        android:id="@+id/tv_stu_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Banxia" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:gravity="center_horizontal"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1">
+
+    <TextView
+        android:padding="5dp"
+        android:id="@+id/tv_stu_fenshu"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="80" />
+
+    </LinearLayout>
+
+</LinearLayout>

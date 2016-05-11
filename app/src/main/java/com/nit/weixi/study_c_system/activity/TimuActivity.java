@@ -307,6 +307,7 @@ public class TimuActivity extends AppCompatActivity {
                             e.printStackTrace();
                         }
                         RequestParams params = new RequestParams();
+                        params.put("tag","jiaojuan");
                         params.put("date", zyDate);
                         params.put("usernum", userNum);
                         params.put("userjson", json.toString());

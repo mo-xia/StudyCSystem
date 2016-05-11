@@ -2,5 +2,6 @@
 <Toolbar android:layout_height="wrap_content"
     android:id="@+id/toolbar"
     android:layout_width="match_parent"
-    android:background="@color/colorPrimary"
+    android:background="?attr/colorPrimary"
+    android:minHeight="?attr/actionBarSize"
     xmlns:android="http://schemas.android.com/apk/res/android" />

@@ -3,6 +3,7 @@ package com.nit.weixi.study_c_system.activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -32,6 +33,12 @@ public class TeacherClientActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId()==R.id.about){
+            Intent intent=new Intent(this,AboutActivity.class);
+            intent.putExtra("tag","teacher");
+            startActivity(intent);
+            return true;
+        }
         return super.onOptionsItemSelected(item);
     }
 }
