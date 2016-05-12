@@ -1,11 +1,121 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="我是设置与帮助"/>
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <LinearLayout
+            android:id="@+id/ll_help"
+            style="@style/LinearLayout.setting">
 
-</RelativeLayout>
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_event_note_grey_700_36dp" />
+
+            <TextView
+                style="@style/TextView.setting"
+                android:text="使用帮助" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:background="@drawable/ic_line" />
+
+        <LinearLayout
+            android:id="@+id/ll_feedback"
+            style="@style/LinearLayout.setting">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_feedback_grey_700_36dp" />
+
+            <TextView
+                style="@style/TextView.setting"
+                android:text="意见反馈" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:background="@drawable/ic_line" />
+
+        <LinearLayout
+            android:id="@+id/ll_update"
+            style="@style/LinearLayout.setting">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_cloud_download_grey_700_36dp" />
+
+            <TextView
+                style="@style/TextView.setting"
+                android:text="题库更新" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:background="@drawable/ic_line" />
+
+        <LinearLayout
+            android:id="@+id/ll_opensource"
+            style="@style/LinearLayout.setting">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_group_grey_700_36dp" />
+
+            <TextView
+                style="@style/TextView.setting"
+                android:text="开源支持" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:background="@drawable/ic_line" />
+
+        <LinearLayout
+            android:id="@+id/ll_account"
+            style="@style/LinearLayout.setting">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_repeat_grey_700_36dp" />
+
+            <TextView
+                style="@style/TextView.setting"
+                android:text="切换账户" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:background="@drawable/ic_line" />
+
+        <LinearLayout
+            android:id="@+id/ll_about"
+            style="@style/LinearLayout.setting">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_android_grey_700_36dp" />
+
+            <TextView
+                style="@style/TextView.setting"
+                android:text="关于项目" />
+        </LinearLayout>
+    </LinearLayout>
+
+</ScrollView>

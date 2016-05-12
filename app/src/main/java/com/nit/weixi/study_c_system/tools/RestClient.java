@@ -51,9 +51,9 @@ public class RestClient {
     /**
      * post method
      *
-     * @param url
-     * @param params
-     * @param responseHandler
+     * @param url url
+     * @param params 参数
+     * @param responseHandler 响应事件
      */
     public static void post(String url, RequestParams params,
                             AsyncHttpResponseHandler responseHandler) {

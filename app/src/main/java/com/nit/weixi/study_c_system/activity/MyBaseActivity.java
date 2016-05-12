@@ -142,7 +142,7 @@ public abstract class MyBaseActivity extends AppCompatActivity implements Naviga
             fmName = MyConstants.FRAGMENT_TEACHER_ANSWER;
             Tool.setFragment(this, fmName);
         } else if (id == R.id.nav_night) {
-            Toast.makeText(this, "我是夜间模式hahaha", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "作者把我抛弃了555", Toast.LENGTH_SHORT).show();
         } else if (id == R.id.nav_setting) {
             fmName = MyConstants.FRAGMENT_SETTING_HELP;
             Tool.setFragment(this, fmName);

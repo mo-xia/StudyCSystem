@@ -1,9 +1,10 @@
 package com.nit.weixi.study_c_system.activity;
 
 import android.app.Activity;
-import android.app.AlertDialog;
-import android.content.DialogInterface;
+import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -33,10 +34,13 @@ public class UpdateTikuActivity extends MyBackActivity implements View.OnClickLi
     private TextView uploadTiku;
     private String mFilePath;
     private File file;
+    private Context context;
+    private ProgressDialog mProgressDialog;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        context=this;
         setContentView(R.layout.acty_updatetiku);
         selectFile= (TextView) findViewById(R.id.tv_select_file);
         uploadTiku= (TextView) findViewById(R.id.tv_upload_tiku);
@@ -48,7 +52,7 @@ public class UpdateTikuActivity extends MyBackActivity implements View.OnClickLi
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode != Activity.RESULT_OK) {
-            Toast.makeText(this,"请重新选择要上传的题库文件",Toast.LENGTH_LONG).show();
+            Toast.makeText(context,"请重新选择要上传的题库文件",Toast.LENGTH_LONG).show();
         } else if (requestCode == INFILE_CODE) {
             mFilePath = Uri.decode(data.getDataString());
             //通过data.getDataString()得到的路径如果包含中文路径，则会出现乱码现象，经过Uri.decode()函数进行解码，得到正确的路径。但是此时路径为Uri路径，必须转换为String路径，网上有很多方法，本人通过对比发现，Uri路径里多了file：//字符串，所以采用以下方法将前边带的字符串截取掉，获得String路径，可能通用性不够好，下一步会学习更好的方法。
@@ -73,35 +77,60 @@ public class UpdateTikuActivity extends MyBackActivity implements View.OnClickLi
                 break;
             case R.id.tv_upload_tiku:
                 if (mFilePath.isEmpty()){
-                    Toast.makeText(this,"你还没有选择要上传的文件",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context,"你还没有选择要上传的文件",Toast.LENGTH_SHORT).show();
                 }else {
-                    UpdateTikuDialog dialog=new UpdateTikuDialog(this);
+                    UpdateTikuDialog dialog=new UpdateTikuDialog(context);
                     dialog.setIcon(R.drawable.ic_cloud_upload_light_blue_100_36dp);
                     dialog.setTitle("确认上传最新题库");
                     dialog.setUpdateTikuInterface(new UpdateTikuDialog.UpdateTikuInterface() {
                         @Override
                         public void doUpdate() {
-//                            Toast.makeText(UpdateTikuActivity.this,mFilePath,Toast.LENGTH_SHORT).show();
+//                            Toast.makeText(UpdateTikuActivity.context,mFilePath,Toast.LENGTH_SHORT).show();
+                            //获得当前题库版本 +1后上传
+                            SharedPreferences sp = context.getSharedPreferences("tikuversion", MODE_PRIVATE);
+                            int verInt=Integer.parseInt(sp.getString("version", "0"));
+                            String version = verInt+1+"";
                             RequestParams params=new RequestParams();
-                            params.put("updatetag","upload");
+                            params.put("version",version);
                             try {
                                 params.put("tiku",file);
                             } catch (FileNotFoundException e) {
                                 e.printStackTrace();
                             }
-                            RestClient.get("/updatetiku", params, new AsyncHttpResponseHandler() {
+
+                            RestClient.post("/uploadtiku", params, new AsyncHttpResponseHandler() {
+
+                                @Override
+                                public void onStart() {
+                                    mProgressDialog = new ProgressDialog(context);
+                                    mProgressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+                                    mProgressDialog.setTitle("正在上传..");
+                                    mProgressDialog.setProgress(0);
+                                    mProgressDialog.setMax(100);
+                                    mProgressDialog.show();
+                                }
+
+                                @Override
+                                public void onProgress(long bytesWritten, long totalSize) {
+                                    super.onProgress(bytesWritten, totalSize);
+                                    mProgressDialog.setMessage(String.format("大小:%.2f M", 1.0 * totalSize / 1024 / 1024));
+                                    mProgressDialog.setMax((int) totalSize);
+                                    mProgressDialog.setProgress((int) bytesWritten);
+                                }
+
                                 @Override
                                 public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
                                     //上传成功后刷新界面
+                                    mProgressDialog.dismiss();
                                     selectFile.setText("选择文件");
                                     selectFile.setEnabled(true);
                                     mFilePath="";
-                                    Toast.makeText(UpdateTikuActivity.this,"已成功上传新的题库，可以提醒学生更新",Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(context,"已成功上传新的题库，可以提醒学生更新",Toast.LENGTH_SHORT).show();
                                 }
 
                                 @Override
                                 public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
-                                    Tool.backOnFailure(UpdateTikuActivity.this,statusCode);
+                                    Tool.backOnFailure(context,statusCode);
                                 }
                             });
                         }

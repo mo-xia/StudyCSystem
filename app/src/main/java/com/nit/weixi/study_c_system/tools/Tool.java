@@ -21,12 +21,10 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.widget.Toast;
 
-import com.nit.weixi.study_c_system.activity.BuzhiCuotiActivity;
-import com.nit.weixi.study_c_system.data.MyApplication;
+import com.nit.weixi.study_c_system.R;
 import com.nit.weixi.study_c_system.data.MySqliteHelper;
 import com.nit.weixi.study_c_system.data.TiMuBean;
 import com.nit.weixi.study_c_system.fragment.FragmentFactory;
-import com.nit.weixi.study_c_system.R;
 
 import net.lingala.zip4j.core.ZipFile;
 import net.lingala.zip4j.exception.ZipException;
@@ -38,10 +36,8 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
-import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
@@ -210,6 +206,19 @@ public class Tool {
     public static SQLiteDatabase getDataBase(Context context) {
         MySqliteHelper helper = new MySqliteHelper(context, MyConstants.dbName, null, 1);
         return helper.getWritableDatabase();
+    }
+
+    /**
+     * 删除应用files文件夹下的文件
+     * @param context 上下文
+     * @param name 文件的名字
+     */
+    public static void deleteFile(Context context,String name){
+        String path=DownUtils.getRootPath(context);
+        File file=new File(path,name);
+        if (file.exists()){
+            file.delete();
+        }
     }
 
     /**

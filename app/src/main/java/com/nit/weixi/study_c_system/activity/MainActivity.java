@@ -1,16 +1,25 @@
 package com.nit.weixi.study_c_system.activity;
 
+import android.app.AlertDialog;
+import android.app.Application;
+import android.app.ProgressDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.KeyEvent;
+import android.widget.Toast;
 
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 import com.nit.weixi.study_c_system.R;
+import com.nit.weixi.study_c_system.data.MyApplication;
 import com.nit.weixi.study_c_system.tools.DownUtils;
 import com.nit.weixi.study_c_system.tools.MyConstants;
 import com.nit.weixi.study_c_system.tools.RestClient;
 import com.nit.weixi.study_c_system.tools.Tool;
+import com.nit.weixi.study_c_system.tools.UpdateUtils;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -24,11 +33,17 @@ import cz.msebera.android.httpclient.Header;
 
 public class MainActivity extends MyBaseActivity {
 
-
+    private ProgressDialog mProgressDialog;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         fmName = MyConstants.FRAGMENT_HOME;
+        MyApplication application = (MyApplication) getApplication();
+        if (!application.isPushUpdate()){
+            mProgressDialog=new ProgressDialog(this);
+            UpdateUtils.findTikuUpdate(this,mProgressDialog);
+            application.setPushUpdate(true);
+        }
         Tool.setFragment(this, MyConstants.FRAGMENT_HOME);
     }
 

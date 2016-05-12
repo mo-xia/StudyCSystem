@@ -4,8 +4,6 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 
-import com.nit.weixi.study_c_system.tools.RestClient;
-
 /**
  * Created by weixi on 2016/5/10.
  */

@@ -47,8 +47,8 @@ public class DBFromAssets {
                     FileOutputStream fos=new FileOutputStream(dbPath);
                     //创建byte数组  用于1KB写一次
                     byte[] buffer=new byte[1024];
-                    int count = 0;
-                    while((count = is.read(buffer))>0){
+                    int count = -1;
+                    while((count = is.read(buffer))!=-1){
                         fos.write(buffer,0,count);
                     }
                     //最后关闭就可以了

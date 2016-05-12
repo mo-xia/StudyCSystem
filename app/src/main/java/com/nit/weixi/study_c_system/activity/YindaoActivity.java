@@ -12,9 +12,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.ImageView;
 
+import com.nit.weixi.study_c_system.data.MyApplication;
 import com.nit.weixi.study_c_system.pager.LoginFragment;
 import com.nit.weixi.study_c_system.pager.SecFragment;
 import com.nit.weixi.study_c_system.R;
+import com.nit.weixi.study_c_system.tools.DBFromAssets;
+import com.nit.weixi.study_c_system.tools.MyConstants;
 
 /**
  * Created by weixi on 2016/4/16.
@@ -39,6 +42,12 @@ public class YindaoActivity extends AppCompatActivity implements ViewPager.OnPag
         SecFragment.tag="student";
         myHandler=new MyHandler();
         initLayout();
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                DBFromAssets.openDatabase(YindaoActivity.this, MyConstants.dbName);
+            }
+        }).start();
     }
 
     private void initLayout() {

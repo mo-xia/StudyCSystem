@@ -3,6 +3,8 @@ package com.nit.weixi.study_c_system;
 import android.app.Application;
 import android.test.ApplicationTestCase;
 
+import com.nit.weixi.study_c_system.tools.MyConstants;
+
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
@@ -25,5 +27,11 @@ public class ApplicationTest extends ApplicationTestCase<Application> {
             System.out.println("testelse:"+!test1);
         }
     }
+
+    public void testDB(){
+        File dbFile=getContext().getDatabasePath(MyConstants.dbName);
+        System.out.println(dbFile.getAbsolutePath());
+    }
+
 
 }

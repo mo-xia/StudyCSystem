@@ -108,6 +108,29 @@
     </style>
     <!-- 自定义学习资料页面主题-->
 
+    <!--自定义设置界面LinearLayout的style-->
+    <style name="LinearLayout"/>
+    <style name="LinearLayout.setting" >
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">60dp</item>
+        <item name="android:orientation">horizontal</item>
+        <item name="android:background">@drawable/btn_item_whit2grey</item>
+        <item name="android:clickable">true</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:paddingLeft">16dp</item>
+    </style>
+
+    <!--自定义设置界面的TextView的style-->
+    <style name="TextView"/>
+    <style name="TextView.setting" >
+        <item name="android:layout_marginLeft">16dp</item>
+        <item name="android:gravity">left</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">@android:color/black</item>
+    </style>
+
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
