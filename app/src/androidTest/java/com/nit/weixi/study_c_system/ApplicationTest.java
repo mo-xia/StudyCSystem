@@ -5,11 +5,7 @@ import android.test.ApplicationTestCase;
 
 import com.nit.weixi.study_c_system.tools.MyConstants;
 
-import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.util.ArrayList;
 
 /**
  * <a href="http://d.android.com/tools/testing/testing_android.html">Testing Fundamentals</a>
@@ -29,7 +25,7 @@ public class ApplicationTest extends ApplicationTestCase<Application> {
     }
 
     public void testDB(){
-        File dbFile=getContext().getDatabasePath(MyConstants.dbName);
+        File dbFile=getContext().getDatabasePath(MyConstants.DB_NAME);
         System.out.println(dbFile.getAbsolutePath());
     }
 

@@ -15,27 +15,31 @@ import android.widget.Toast;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 import com.nit.weixi.study_c_system.R;
+import com.nit.weixi.study_c_system.tools.MyConstants;
 import com.nit.weixi.study_c_system.tools.RestClient;
 import com.nit.weixi.study_c_system.tools.Tool;
+import com.nit.weixi.study_c_system.tools.UpdateUtils;
 import com.nit.weixi.study_c_system.views.UpdateTikuDialog;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.Locale;
 
 import cz.msebera.android.httpclient.Header;
 
 /**
+ * 更新题库模块
  * Created by weixi on 2016/5/10.
  */
 public class UpdateTikuActivity extends MyBackActivity implements View.OnClickListener {
 
-    private static final int INFILE_CODE = 456;
-    private TextView selectFile;
-    private TextView uploadTiku;
+    private final int INFILE_CODE = 456;
+    private TextView selectFile; //选择文件
+    private TextView uploadTiku; //更新
     private String mFilePath;
     private File file;
     private Context context;
-    private ProgressDialog mProgressDialog;
+    private ProgressDialog mProgressDialog; //上传进度条
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -54,13 +58,13 @@ public class UpdateTikuActivity extends MyBackActivity implements View.OnClickLi
         if (resultCode != Activity.RESULT_OK) {
             Toast.makeText(context,"请重新选择要上传的题库文件",Toast.LENGTH_LONG).show();
         } else if (requestCode == INFILE_CODE) {
+            //解决中文路径乱码，暂未发现
             mFilePath = Uri.decode(data.getDataString());
-            //通过data.getDataString()得到的路径如果包含中文路径，则会出现乱码现象，经过Uri.decode()函数进行解码，得到正确的路径。但是此时路径为Uri路径，必须转换为String路径，网上有很多方法，本人通过对比发现，Uri路径里多了file：//字符串，所以采用以下方法将前边带的字符串截取掉，获得String路径，可能通用性不够好，下一步会学习更好的方法。
             mFilePath = mFilePath.substring(7, mFilePath.length());
+
             file=new File(mFilePath);
-            System.out.println(file.getName());
-            selectFile.setText(file.getName());
-            selectFile.setEnabled(false);
+            selectFile.setText(file.getName()); //把文件名设置给选择文件文本框
+            selectFile.setEnabled(false); //选择成功后不能再重新选择
         }
     }
 
@@ -68,10 +72,10 @@ public class UpdateTikuActivity extends MyBackActivity implements View.OnClickLi
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.tv_select_file:
-                // 打开系统文件浏览功能
+                // 打开系统文件浏览器
                 Intent intent = new Intent();
                 intent.setAction(Intent.ACTION_GET_CONTENT);
-                intent.setType("*/DB");
+                intent.setType("file/*");
                 intent.addCategory(Intent.CATEGORY_OPENABLE);
                 startActivityForResult(intent,INFILE_CODE);
                 break;
@@ -85,10 +89,9 @@ public class UpdateTikuActivity extends MyBackActivity implements View.OnClickLi
                     dialog.setUpdateTikuInterface(new UpdateTikuDialog.UpdateTikuInterface() {
                         @Override
                         public void doUpdate() {
-//                            Toast.makeText(UpdateTikuActivity.context,mFilePath,Toast.LENGTH_SHORT).show();
                             //获得当前题库版本 +1后上传
-                            SharedPreferences sp = context.getSharedPreferences("tikuversion", MODE_PRIVATE);
-                            int verInt=Integer.parseInt(sp.getString("version", "0"));
+                            SharedPreferences sp = context.getSharedPreferences(MyConstants.TIKU_SP, MODE_PRIVATE);
+                            int verInt=Integer.parseInt(sp.getString(MyConstants.TIKU_SP_VERSION, "0"));
                             String version = verInt+1+"";
                             RequestParams params=new RequestParams();
                             params.put("version",version);
@@ -98,7 +101,7 @@ public class UpdateTikuActivity extends MyBackActivity implements View.OnClickLi
                                 e.printStackTrace();
                             }
 
-                            RestClient.post("/uploadtiku", params, new AsyncHttpResponseHandler() {
+                            RestClient.post(MyConstants.UPDATE_URL_UPLOAD, params, new AsyncHttpResponseHandler() {
 
                                 @Override
                                 public void onStart() {
@@ -113,18 +116,19 @@ public class UpdateTikuActivity extends MyBackActivity implements View.OnClickLi
                                 @Override
                                 public void onProgress(long bytesWritten, long totalSize) {
                                     super.onProgress(bytesWritten, totalSize);
-                                    mProgressDialog.setMessage(String.format("大小:%.2f M", 1.0 * totalSize / 1024 / 1024));
+                                    mProgressDialog.setMessage(String.format(Locale.CHINA,"大小:%.2f M", 1.0 * totalSize / 1024 / 1024));
                                     mProgressDialog.setMax((int) totalSize);
                                     mProgressDialog.setProgress((int) bytesWritten);
                                 }
 
                                 @Override
                                 public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
-                                    //上传成功后刷新界面
+                                    //上传成功后刷新界面 并更新自己的题库
                                     mProgressDialog.dismiss();
                                     selectFile.setText("选择文件");
                                     selectFile.setEnabled(true);
                                     mFilePath="";
+                                    UpdateUtils.replaceDBFile(file,context); //更新老师自己的题库文件
                                     Toast.makeText(context,"已成功上传新的题库，可以提醒学生更新",Toast.LENGTH_SHORT).show();
                                 }
 

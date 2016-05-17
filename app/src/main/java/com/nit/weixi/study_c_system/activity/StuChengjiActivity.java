@@ -3,7 +3,6 @@ package com.nit.weixi.study_c_system.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -11,27 +10,27 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.google.gson.Gson;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 import com.nit.weixi.study_c_system.R;
-import com.nit.weixi.study_c_system.data.AnswerBean;
 import com.nit.weixi.study_c_system.data.MyRecyclerViewAdapter;
+import com.nit.weixi.study_c_system.tools.MyConstants;
 import com.nit.weixi.study_c_system.tools.RestClient;
 import com.nit.weixi.study_c_system.tools.Tool;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import cz.msebera.android.httpclient.Header;
 
 /**
+ * 学生成绩 模块
+ * 在这里终于知道了网络异步加载 从网络获得数据后让adapter.notifyDataSetChanged
  * Created by weixi on 2016/5/9.
  */
 public class StuChengjiActivity extends MyBackActivity{
 
-    List<String> timeList;
+    List<String> timeList; //作业布置时间列表
     StuChengjiAdapter adapter;
 
     @Override
@@ -47,6 +46,7 @@ public class StuChengjiActivity extends MyBackActivity{
         adapter.setOnItemClickLitener(new MyRecyclerViewAdapter.OnItemClickLitener() {
             @Override
             public void onItemClick(View view, int position) {
+                //打开一个学生成绩的详情 包括每个学生
                 Intent intent=new Intent(StuChengjiActivity.this,DetailChengjiActivity.class);
                 intent.putExtra("title",timeList.get(position));
                 startActivity(intent);
@@ -55,10 +55,13 @@ public class StuChengjiActivity extends MyBackActivity{
         view.setAdapter(adapter);
     }
 
+    /**
+     * 从网络加载一个成绩列表信息 按布置作业的时间排列
+     */
     private void loadtimeList(){
         RequestParams params=new RequestParams();
         params.put("tag","timelist");
-        RestClient.get("/chengji", params, new AsyncHttpResponseHandler() {
+        RestClient.get(MyConstants.CHENGJI_URL, params, new AsyncHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
                 String times=new String(responseBody);
@@ -66,7 +69,7 @@ public class StuChengjiActivity extends MyBackActivity{
                     timeList = Tool.getListFromString(times);
                     adapter.notifyDataSetChanged();
                 }else {
-                    System.out.println("list为空");
+                    Tool.displayEmpty4Server(StuChengjiActivity.this);
                 }
             }
 

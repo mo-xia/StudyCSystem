@@ -10,6 +10,7 @@ import com.nit.weixi.study_c_system.R;
 import com.nit.weixi.study_c_system.fragment.HomeFragment;
 
 /**
+ * 设置老师端的fragment
  * Created by weixi on 2016/5/8.
  */
 public class TeacherUtils {

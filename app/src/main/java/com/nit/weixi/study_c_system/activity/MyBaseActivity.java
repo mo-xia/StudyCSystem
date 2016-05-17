@@ -22,11 +22,12 @@ import com.nit.weixi.study_c_system.tools.MyConstants;
 import com.nit.weixi.study_c_system.tools.Tool;
 
 /**
+ * 学生端的基类activity
  * Created by weixi on 2016/3/30.
  */
 public abstract class MyBaseActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
-    String fmName;
+    String fmName; // 当前fragment的名字
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,19 +47,23 @@ public abstract class MyBaseActivity extends AppCompatActivity implements Naviga
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.setDrawerListener(toggle);
+        drawer.addDrawerListener(toggle);
         toggle.syncState();
 
+        //初始化抽屉栏
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         View headerView = navigationView.getHeaderView(0);
         TextView userNum= (TextView) headerView.findViewById(R.id.usernumber);
         TextView userName= (TextView) headerView.findViewById(R.id.username);
         ImageView userIcon= (ImageView) headerView.findViewById(R.id.usericon);
-        SharedPreferences userSP = getSharedPreferences("user", MODE_PRIVATE);
-        userName.setText(userSP.getString("username","Studio"));
-        userNum.setText(userSP.getString("usernum","20140920"));
-        Bitmap bitmap = Tool.getBitmapFromFile(this, "icon.png");
+
+        //设置抽屉里面的学生信息
+        SharedPreferences userSP = getSharedPreferences(MyConstants.STUDENT_SP, MODE_PRIVATE);
+        userName.setText(userSP.getString(MyConstants.STUDENT_SP_NAME,"Studio"));
+        userNum.setText(userSP.getString(MyConstants.STUDENT_SP_NUMBER,"20140920"));
+        Bitmap bitmap = Tool.getBitmapFromFile(this, MyConstants.STUDENT_ICON_NAME);
         userIcon.setImageBitmap(bitmap);
+
         navigationView.setNavigationItemSelectedListener(this);
     }
 
@@ -89,12 +94,7 @@ public abstract class MyBaseActivity extends AppCompatActivity implements Naviga
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
         if (id == R.id.about) {
             Intent intent=new Intent(this,AboutActivity.class);
             intent.putExtra("tag",getTag());
@@ -105,20 +105,17 @@ public abstract class MyBaseActivity extends AppCompatActivity implements Naviga
         return super.onOptionsItemSelected(item);
     }
 
-    abstract String getTag();
+    abstract String getTag(); //获得当前activity的tag 主要用于about界面的导航栏颜色
 
     /**
      * 处理抽屉上的点击事件，做响应逻辑后关闭抽屉
-     *
      * @param item 响应条目点击事件的菜单
-     * @return
+     * @return true
      */
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
-        // Handle navigation view item clicks here.
         int id = item.getItemId();//点击的条目的资源id
-
         if (id == R.id.nav_home) { // 点击的是首页
             // 获取当前活动的名字
             // 如果是MainActivity就切换Fragment

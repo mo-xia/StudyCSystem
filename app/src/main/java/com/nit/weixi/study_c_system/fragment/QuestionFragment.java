@@ -18,11 +18,11 @@ import com.loopj.android.http.RequestParams;
 import com.nit.weixi.study_c_system.R;
 import com.nit.weixi.study_c_system.activity.OneTimuActivity;
 import com.nit.weixi.study_c_system.data.MyRecyclerViewAdapter;
+import com.nit.weixi.study_c_system.tools.MyConstants;
 import com.nit.weixi.study_c_system.tools.RestClient;
 import com.nit.weixi.study_c_system.tools.Tool;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -30,6 +30,7 @@ import java.util.Map;
 import cz.msebera.android.httpclient.Header;
 
 /**
+ * 提问与解答
  * Created by weixi on 2016/3/30.
  */
 public class QuestionFragment extends Fragment {
@@ -42,14 +43,14 @@ public class QuestionFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        if (getTag() != null) {
+        if (getTag() != null) { //answer
             tag = getTag();
             list = new ArrayList<String>();
             adapter = new MyQuestionAdapter();
             getWentiList();
-        } else {
+        } else { //question
             tag = "";
-            list = Tool.getListFromFile(getActivity(), "cuoti.txt");
+            list = Tool.getListFromFile(getActivity(), MyConstants.CUOTI_FILE_NAME);
             getWentiMap();
             if (list.size() == 0) {
                 TextView tv = new TextView(container.getContext());
@@ -82,7 +83,7 @@ public class QuestionFragment extends Fragment {
     private void getWentiList() {
         RequestParams params = new RequestParams();
         params.put("dayitag", "question");
-        RestClient.get("/dayi", params, new DataAsyncHttpResponseHandler() {
+        RestClient.get(MyConstants.DAYI_URL, params, new DataAsyncHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
                 String wentiStr = new String(responseBody).replace("[", "");
@@ -119,12 +120,12 @@ public class QuestionFragment extends Fragment {
         String selectStr = "(" + list.toString().substring(1, list.toString().length() - 1) + ")";
         String selection = "_id IN " + selectStr;
         SQLiteDatabase dataBase = Tool.getDataBase(getActivity());
-        Cursor timu = dataBase.query("timu", new String[]{"_id", "zhangjie_id", "zhubiaoti"}, selection, null, null, null, "_id asc");
+        Cursor timu = dataBase.query(MyConstants.TABLE_TIMU_NAME, new String[]{"_id", "zhangjie_id", "zhubiaoti"}, selection, null, null, null, "_id asc");
         while (timu.moveToNext()) {
             timuIdList.add(timu.getString(0));
             timuTitleList.add(timu.getString(2));
             String zhangjieId = timu.getString(1);
-            Cursor zhangjie = dataBase.query("zhangjie", new String[]{"name"}, "_id= ?", new String[]{zhangjieId}, null, null, null);
+            Cursor zhangjie = dataBase.query(MyConstants.TABLE_ZHANGJIE_NAME, new String[]{"name"}, "_id= ?", new String[]{zhangjieId}, null, null, null);
             zhangjie.moveToFirst();
             timuZJList.add(zhangjie.getString(0));
             zhangjie.close();

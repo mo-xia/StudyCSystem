@@ -45,13 +45,13 @@ import java.util.Locale;
 import java.util.Random;
 
 /**
+ * 工具类
  * Created by weixi on 2016/3/29.
  */
 public class Tool {
 
     /**
      * 下拉刷新
-     *
      * @param swipeRefreshLayout 刷新控件
      * @param isRefreshing       是否刷新
      */
@@ -82,7 +82,6 @@ public class Tool {
 
     /**
      * 解压文件到指定目录
-     *
      * @param source
      * @param descDir
      */
@@ -191,7 +190,7 @@ public class Tool {
      */
     public static int getTimuCount(Context context) {
         SQLiteDatabase db = getDataBase(context);
-        Cursor cursor = db.query(MyConstants.TABLE_TIMU, new String[]{"_id"}, null, null, null, null, null);
+        Cursor cursor = db.query(MyConstants.TABLE_TIMU_NAME, new String[]{"_id"}, null, null, null, null, null);
         int count = cursor.getCount();
         cursor.close();
         return count;
@@ -204,8 +203,32 @@ public class Tool {
      * @return 当前数据库
      */
     public static SQLiteDatabase getDataBase(Context context) {
-        MySqliteHelper helper = new MySqliteHelper(context, MyConstants.dbName, null, 1);
+        MySqliteHelper helper = new MySqliteHelper(context, MyConstants.DB_NAME, null, 1);
         return helper.getWritableDatabase();
+    }
+
+    /**
+     * 根据不同的tag设置不同的theme
+     * @param activity activity
+     * @param tag tag
+     */
+    public static void setMyTheme(Activity activity,String tag){
+        switch (tag){
+            case "data":
+                activity.setTheme(R.style.DataTheme_NoActionBar);
+                break;
+            case "training":
+                activity.setTheme(R.style.TrainingTheme_NoActionBar);
+                break;
+            case "test":
+                activity.setTheme(R.style.TestTheme_NoActionBar);
+                break;
+            case "task":
+                activity.setTheme(R.style.TaskTheme_NoActionBar);
+                break;
+            default:
+                activity.setTheme(R.style.AppTheme_NoActionBar);
+        }
     }
 
     /**
@@ -219,6 +242,27 @@ public class Tool {
         if (file.exists()){
             file.delete();
         }
+    }
+
+    /**
+     * 删除方法 这里只会删除某个文件夹下的文件，如果传入的directory是个文件，将不做处理
+     * @param directory
+     */
+    private static void deleteFilesByDirectory(File directory) {
+        if (directory != null && directory.exists() && directory.isDirectory()) {
+            for (File item : directory.listFiles()) {
+                item.delete();
+            }
+        }
+    }
+
+    /**
+     * 清除所有的SharedPreference
+     * @param context
+     */
+    public static void cleanSharedPreference(Context context) {
+        deleteFilesByDirectory(new File("/data/data/"
+                + context.getPackageName() + "/shared_prefs"));
     }
 
     /**
@@ -290,6 +334,18 @@ public class Tool {
     }
 
     /**
+     * 格式化我的考试时间
+     * @param haomiao 毫秒
+     * @return 我要求的格式化的时间
+     */
+    public static String formatTime(long haomiao){
+        int miao= (int) (haomiao/1000);
+        int fen=miao/60;
+        int yu=miao%60;
+        return fen+"分"+yu+"秒";
+    }
+
+    /**
      * 获取一个随机颜色
      * @return 随机颜色值
      */
@@ -336,7 +392,7 @@ public class Tool {
     /**
      * 转换图片成圆形
      * @param bitmap 传入Bitmap对象
-     * @return
+     * @return 圆形bitmap
      */
     public static Bitmap toRoundBitmap(Bitmap bitmap) {
         int width = bitmap.getWidth();
@@ -407,8 +463,7 @@ public class Tool {
      */
     public static void saveBitmap(Context context,Bitmap bitmap){
         String path=DownUtils.getRootPath(context);
-        String fileName="icon.png";
-        File file=new File(path,fileName);
+        File file=new File(path,MyConstants.STUDENT_ICON_NAME);
         try {
             FileOutputStream fos=new FileOutputStream(file);
             bitmap.compress(Bitmap.CompressFormat.PNG,100,fos);
@@ -419,6 +474,12 @@ public class Tool {
         }
     }
 
+    /**
+     * 从文件获得一个bitmap对象
+     * @param context 上下文
+     * @param fileName 文件的名字
+     * @return bitmap
+     */
     public static Bitmap getBitmapFromFile(Context context,String fileName){
         String path = DownUtils.getRootPath(context);
         File file=new File(path,fileName);
@@ -429,6 +490,14 @@ public class Tool {
             e.printStackTrace();
             return null;
         }
+    }
+
+    /**
+     * 显示从服务器获得的数据为空时的信息
+     * @param context 上下文
+     */
+    public static void displayEmpty4Server(Context context){
+        Toast.makeText(context,"服务器现在还没有你要获得的信息",Toast.LENGTH_SHORT).show();
     }
 
     /**
@@ -444,7 +513,6 @@ public class Tool {
 
     /**
      * 讲查询到的题目封装成timubean对象
-     *
      * @param cursor 查询得到的cursor
      * @return 一个timu的list集合
      */

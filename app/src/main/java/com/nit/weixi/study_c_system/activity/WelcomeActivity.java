@@ -6,22 +6,31 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 
 import com.nit.weixi.study_c_system.R;
-import com.nit.weixi.study_c_system.tools.DBFromAssets;
 import com.nit.weixi.study_c_system.tools.MyConstants;
-import com.nit.weixi.study_c_system.tools.RestClient;
-import com.nit.weixi.study_c_system.tools.Tool;
 
 import java.util.Timer;
 import java.util.TimerTask;
 
 /**
+ * 欢迎页
  * Created by weixi on 2016/4/15.
  */
 
 public class WelcomeActivity extends AppCompatActivity {
 
+    /**
+     * 默认身份
+     */
     static final String DEFSHENFEN="weizhi";
+
+    /**
+     * 老师
+     */
     static final String TEACHERSHENFEN="teacher";
+
+    /**
+     * 学生
+     */
     static final String STUDENTSHENFEN="student";
     SharedPreferences sp;
 
@@ -30,23 +39,24 @@ public class WelcomeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.acty_welcome);
 
-        sp=getSharedPreferences(MyConstants.SPNAME,MODE_PRIVATE);
+        sp=getSharedPreferences(MyConstants.LOGIN_SP,MODE_PRIVATE);
 
-        Timer timer=new Timer();
+        Timer timer=new Timer(); //开启一个计时任务
         TimerTask task=new TimerTask() {
             @Override
             public void run() {
 
-                if (sp.getString("shenfen","weizhi").equals(DEFSHENFEN)){
+                if (sp.getString(MyConstants.LOGIN_SP_SHENFEN,"weizhi").equals(DEFSHENFEN)){
+                    // 第一次进入，程序从引导程序开始
                     startActivity(new Intent(WelcomeActivity.this,YindaoActivity.class));
-                    finish();
-                }else if (sp.getString("shenfen","weizhi").equals(TEACHERSHENFEN)){
+                }else if (sp.getString(MyConstants.LOGIN_SP_SHENFEN,"weizhi").equals(TEACHERSHENFEN)){
+                    // 非首次进入 跳过引导页 老师则进入老师端
                     startActivity(new Intent(WelcomeActivity.this,TeacherClientActivity.class));
-                    finish();
                 }else {
+                    //否则进入学生端
                     startActivity(new Intent(WelcomeActivity.this,MainActivity.class));
-                    finish();
                 }
+                finish();
             }
         };
         timer.schedule(task,3000); //三秒后执行task

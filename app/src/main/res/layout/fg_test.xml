@@ -71,7 +71,7 @@
 
     <Button
         android:id="@+id/btn_test_start"
-        android:layout_alignEnd="@+id/rl_test"
+        android:layout_centerHorizontal="true"
         android:layout_alignParentBottom="true"
         android:layout_marginBottom="50dp"
         android:layout_width="50dp"

@@ -1,9 +1,7 @@
 package com.nit.weixi.study_c_system.activity;
 
 import android.os.Bundle;
-import android.widget.TextView;
 
-import com.nit.weixi.study_c_system.R;
 import com.nit.weixi.study_c_system.tools.MyConstants;
 import com.nit.weixi.study_c_system.tools.Tool;
 

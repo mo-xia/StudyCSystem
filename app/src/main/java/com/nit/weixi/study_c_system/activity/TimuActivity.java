@@ -9,6 +9,7 @@ import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -27,7 +28,6 @@ import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 import com.nit.weixi.study_c_system.R;
 import com.nit.weixi.study_c_system.data.TiMuBean;
-import com.nit.weixi.study_c_system.tools.DownUtils;
 import com.nit.weixi.study_c_system.tools.MyConstants;
 import com.nit.weixi.study_c_system.tools.RestClient;
 import com.nit.weixi.study_c_system.tools.TimuUtils;
@@ -37,17 +37,13 @@ import com.nit.weixi.study_c_system.views.MyRecyclerView;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import cz.msebera.android.httpclient.Header;
 
 /**
+ * 题目详情界面
  * Created by weixi on 2016/4/2.
  */
 public class TimuActivity extends AppCompatActivity {
@@ -64,8 +60,15 @@ public class TimuActivity extends AppCompatActivity {
     ArrayList<String> zhengqueList;
     ArrayList<String> chengjiList;
     boolean isTask;
+    long haoMiao;
     int finishTime;
+    int tishu;
     String zyDate;
+    LinearLayout ll_data;
+    TextView tv_tishu;
+    TextView tv_time;
+    int startPos = 0;
+    MyTimer timer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,41 +83,14 @@ public class TimuActivity extends AppCompatActivity {
 
         context = this;
         tag = getIntent().getExtras().getString("tag");
-        int startPos = 0;
-        if (tag.equals("training")) {
-            startPos = getIntent().getExtras().getInt("position");
-            int zhangjieId = getIntent().getExtras().getInt("zhangjieId");
-            seletion = "zhangjie_id=?";
-            selectionArgs = new String[]{zhangjieId + ""};
-        } else if (tag.equals("test")) {
 
-            String selectionStr = null;
-            String other = getIntent().getExtras().getString("other");
-            if (other != null) {
-                zyDate = getIntent().getExtras().getString("date");
-                int finishTime = Integer.parseInt(getIntent().getExtras().getString("shijian"));
-                isTask = true;
-                String strList = getIntent().getExtras().getString("timulist");
-                selectionStr = "(" + strList.substring(1, strList.length() - 1) + ")";
-            } else {
-                //shijian = Integer.parseInt(getIntent().getExtras().getString("shijian"));
-                int tishu = Integer.parseInt(getIntent().getExtras().getString("tishu"));
-                String[] randTimu = Tool.getRandTimu(context, tishu);
-                selectionStr = Tool.getSelectionArgs(randTimu);
-            }
-            seletion = "_id IN " + selectionStr;
-            selectionArgs = null;
-        } else {
-            String[] cuotitests = getIntent().getExtras().getStringArray("cuotitest");
-            String selectionStr = Tool.getSelectionArgs(cuotitests);
-            seletion = "_id IN " + selectionStr;
-            selectionArgs = null;
-        }
+        initWithTag(); //初始化
 
         //获得从上一个activity中传来的章节和位置信息
         //给recyclerview添加adapter
         timuList = new ArrayList<TiMuBean>();
         MyListAdapter adapter = new MyListAdapter();
+
         rl.setAdapter(adapter);
 
         //设置一开始显示的位置
@@ -131,17 +107,106 @@ public class TimuActivity extends AppCompatActivity {
     }
 
     /**
+     * 我的时间倒计时类
+     */
+    class MyTimer extends CountDownTimer {
+
+        public MyTimer(long millisInFuture, long countDownInterval) {
+            super(millisInFuture, countDownInterval);
+        }
+
+        /**
+         * 每经过 millisUntilFinished 做什么操作
+         * @param millisUntilFinished 总时长
+         */
+        @Override
+        public void onTick(long millisUntilFinished) {
+            String mTime=Tool.formatTime(millisUntilFinished-1000);
+            tv_time.setText(mTime);
+        }
+
+        /**
+         * 倒计时完成之后做什么
+         */
+        @Override
+        public void onFinish() {
+            clickJiaojuan();
+            Toast.makeText(TimuActivity.this,"规定时间到了，系统将为你自动提交",Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    /**
+     * 根据传入的tag 做相应的初始化
+     */
+    private void initWithTag() {
+        switch (tag) {
+            case "training":
+                startPos = getIntent().getExtras().getInt("position");
+                int zhangjieId = getIntent().getExtras().getInt("zhangjieId");
+                seletion = "zhangjie_id=?";
+                selectionArgs = new String[]{zhangjieId + ""};
+                break;
+            case "test": {
+
+                String selectionStr = null;
+
+                String other = getIntent().getExtras().getString("other");
+                finishTime = Integer.parseInt(getIntent().getExtras().getString("shijian"));
+                haoMiao=finishTime*60*1000;
+                tishu = Integer.parseInt(getIntent().getExtras().getString("tishu"));
+                if (other != null) {
+                    zyDate = getIntent().getExtras().getString("date");
+                    isTask = true;
+                    String strList = getIntent().getExtras().getString("timulist");
+                    selectionStr = "(" + strList.substring(1, strList.length() - 1) + ")";
+                } else {
+                    String[] randTimu = Tool.getRandTimu(context, tishu);
+                    selectionStr = Tool.getSelectionArgs(randTimu);
+                }
+                ll_data= (LinearLayout) findViewById(R.id.ll_data);
+                tv_tishu= (TextView) findViewById(R.id.tv_timu_tishu);
+                tv_time= (TextView) findViewById(R.id.tv_timu_time);
+                tv_tishu.setText(tishu+"");
+                tv_time.setText(Tool.formatTime(haoMiao));
+                ll_data.setVisibility(View.VISIBLE);
+                timer=new MyTimer(finishTime*60*1000,1000);
+                timer.start();
+                seletion = "_id IN " + selectionStr;
+                selectionArgs = null;
+                break;
+            }
+            default: {
+                String[] cuotitests = getIntent().getExtras().getStringArray("cuotitest");
+                String selectionStr = Tool.getSelectionArgs(cuotitests);
+                seletion = "_id IN " + selectionStr;
+                selectionArgs = null;
+                break;
+            }
+        }
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (tag.equals("test")){
+            clickJiaojuan();
+            timer.cancel();
+            return;
+        }
+        super.onBackPressed();
+    }
+
+    /**
      * 题目活动销毁时 退出该页面时 把错题和提问的题号写入文件中
      */
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if (tag.equals("test")&&chengjiList!=null) {
-            TimuUtils.writeFileFromList(this,"chengji.txt",chengjiList);
+        if (tag.equals("test")&&chengjiList.size()!=0) {
+            TimuUtils.writeFileFromList(this,MyConstants.CHENGJI_FILE_NAME,chengjiList);
         }
-        TimuUtils.writeFileFromList(this,"cuoti.txt",cuotiList);
-        TimuUtils.writeFileFromList(this,"tiwen.txt",tiwenList);
-        TimuUtils.writeFileFromList(this,"zhengque.txt",zhengqueList);
+        TimuUtils.writeFileFromList(this,MyConstants.CUOTI_FILE_NAME,cuotiList);
+        TimuUtils.writeFileFromList(this,MyConstants.TIWEN_FILE_NAME,tiwenList);
+        TimuUtils.writeFileFromList(this,MyConstants.ZHENGQUE_FILE_NAME,zhengqueList);
     }
 
     class MyListAdapter extends RecyclerView.Adapter implements View.OnClickListener, RadioGroup.OnCheckedChangeListener {
@@ -285,59 +350,7 @@ public class TimuActivity extends AppCompatActivity {
                     Toast.makeText(context, "已将问题提交，请稍后到老师答疑板块寻找详细解答", Toast.LENGTH_SHORT).show();
                     break;
                 case R.id.btn_jiaojuan:  // 处理点击交卷的响应事件
-                    chengjiList = new ArrayList<String>(); // 初始化chengjiList
-                    //获得成绩
-                    int fenshu = zhengqueList.size() * 100 / timuList.size();
-                    String fenshuStr = fenshu + "";
-                    //将获得的成绩信息添加到chengjiList中
-                    String currentDate = Tool.getCurrentDate();
-                    String chengji = fenshuStr + "##" + currentDate;//成绩信息由当前分数和当前时间
-                    chengjiList.add(chengji);
-                    String userNum;
-                    if (isTask) {
-                        SharedPreferences user = getSharedPreferences("user", MODE_PRIVATE);
-                        String userName = user.getString("username", "Studio");
-                        userNum = user.getString("usernum", "20140920");
-                        JSONObject json = new JSONObject();
-                        try {
-                            json.put("stuName", userName);
-                            json.put("stuNum", userNum);
-                            json.put("stuFen", fenshuStr);
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                        RequestParams params = new RequestParams();
-                        params.put("tag","jiaojuan");
-                        params.put("date", zyDate);
-                        params.put("usernum", userNum);
-                        params.put("userjson", json.toString());
-                        RestClient.get("/chengji", params, new AsyncHttpResponseHandler() {
-                            @Override
-                            public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
-                                Toast.makeText(context, "交卷成功", Toast.LENGTH_SHORT).show();
-                            }
-
-                            @Override
-                            public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
-                                Tool.backOnFailure(context, statusCode);
-                            }
-                        });
-                        Intent intent = new Intent();
-                        intent.putExtra("fenshu", fenshuStr);
-                        setResult(Activity.RESULT_OK, intent);
-                        SharedPreferences.Editor lastfenshu = Tool.getEditor(context, "lastfenshu");
-                        lastfenshu.putString("fenshu", fenshuStr).commit();
-                        finish();
-                    } else {
-                        //弹出一个alertDialog
-                        AlertDialog.Builder dialog = new AlertDialog.Builder(context);
-                        //设置一个自定义的alertDialog布局
-                        LayoutInflater inflater = getLayoutInflater();
-                        View dialogView = inflater.inflate(R.layout.dialog_test, null, false);
-                        dialog.setView(dialogView);
-                        doInDialog(dialog, dialogView, fenshu, fenshuStr);
-                    }
-
+                    clickJiaojuan();
                     break;
             }
 
@@ -449,9 +462,67 @@ public class TimuActivity extends AppCompatActivity {
          */
         public List<TiMuBean> getData() {
             SQLiteDatabase db = Tool.getDataBase(context);
-            Cursor cursor = db.query(MyConstants.TABLE_TIMU, null, seletion, selectionArgs, null, null, null);
+            Cursor cursor = db.query(MyConstants.TABLE_TIMU_NAME, null, seletion, selectionArgs, null, null, null);
 
             return Tool.setTiMuBean(cursor);
+        }
+    }
+
+    /**
+     * 点击交卷时做的操作
+     */
+    public void clickJiaojuan() {
+        chengjiList = new ArrayList<String>(); // 初始化chengjiList
+        //获得成绩
+        int fenshu = zhengqueList.size() * 100 / timuList.size();
+        String fenshuStr = fenshu + "";
+        //将获得的成绩信息添加到chengjiList中
+        String currentDate = Tool.getCurrentDate();
+        String chengji = fenshuStr + "##" + currentDate;//成绩信息由当前分数和当前时间
+        chengjiList.add(chengji);
+        String userNum;
+        if (isTask) {
+            SharedPreferences user = getSharedPreferences("user", MODE_PRIVATE);
+            String userName = user.getString("username", "Studio");
+            userNum = user.getString("usernum", "20140920");
+            JSONObject json = new JSONObject();
+            try {
+                json.put("stuName", userName);
+                json.put("stuNum", userNum);
+                json.put("stuFen", fenshuStr);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            RequestParams params = new RequestParams();
+            params.put("tag","jiaojuan");
+            params.put("date", zyDate);
+            params.put("usernum", userNum);
+            params.put("userjson", json.toString());
+            RestClient.get(MyConstants.CHENGJI_URL, params, new AsyncHttpResponseHandler() {
+                @Override
+                public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
+                    Toast.makeText(context, "交卷成功", Toast.LENGTH_SHORT).show();
+                }
+
+                @Override
+                public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+                    Tool.backOnFailure(context, statusCode);
+                }
+            });
+            Intent intent = new Intent();
+            intent.putExtra("fenshu", fenshuStr);
+            setResult(Activity.RESULT_OK, intent);
+            SharedPreferences.Editor lastfenshu = Tool.getEditor(context, MyConstants.ZUOYE_SP);
+            lastfenshu.putString(MyConstants.ZUOYE_SP_FENSHU, fenshuStr).commit();
+            finish();
+        } else {
+            //弹出一个alertDialog
+            AlertDialog.Builder dialog = new AlertDialog.Builder(context);
+            //设置一个自定义的alertDialog布局
+            LayoutInflater inflater = getLayoutInflater();
+            View dialogView = inflater.inflate(R.layout.dialog_test, null, false);
+            dialog.setView(dialogView);
+            doInDialog(dialog, dialogView, fenshu, fenshuStr);
         }
     }
 

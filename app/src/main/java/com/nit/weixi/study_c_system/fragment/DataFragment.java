@@ -24,11 +24,13 @@ import com.nit.weixi.study_c_system.views.DownloadConfirmDialog;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Locale;
 
 import cz.msebera.android.httpclient.Header;
 
 
 /**
+ * 学习资料模块
  * Created by weixi on 2016/4/14.
  */
 public class DataFragment extends Fragment implements View.OnClickListener {
@@ -190,7 +192,7 @@ public class DataFragment extends Fragment implements View.OnClickListener {
             public void onProgress(long bytesWritten, long totalSize) {
                 super.onProgress(bytesWritten, totalSize);
 
-                mProgressDialog.setMessage(String.format("大小:%.2f M", 1.0 * totalSize / 1024 / 1024));
+                mProgressDialog.setMessage(String.format(Locale.CHINA,"大小:%.2f M", 1.0 * totalSize / 1024 / 1024));
                 mProgressDialog.setMax((int) totalSize);
                 mProgressDialog.setProgress((int) bytesWritten);
             }

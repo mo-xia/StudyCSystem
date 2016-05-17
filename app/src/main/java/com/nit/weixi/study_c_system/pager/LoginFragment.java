@@ -12,6 +12,7 @@ import com.nit.weixi.study_c_system.R;
 import com.nit.weixi.study_c_system.activity.YindaoActivity;
 
 /**
+ * 登陆界面 选择学生或老师身份 根据所选创建第二个详情界面 默认学生
  * Created by weixi on 2016/4/16.
  */
 public class LoginFragment extends Fragment implements View.OnClickListener {
@@ -27,6 +28,11 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
         return view;
     }
 
+    /**
+     * 点击相应按钮 设置相应身份详情界面的tag
+     * 通知给引导activity 刷新状态
+     * @param v 点击的控件
+     */
     @Override
     public void onClick(View v) {
         switch (v.getId()){

@@ -66,8 +66,7 @@
 
         </activity>
 
-        <activity android:name=".activity.DetailDataActivity"
-            android:theme="@style/DataTheme.NoActionBar">
+        <activity android:name=".activity.DetailDataActivity">
 
         </activity>
 
@@ -75,7 +74,7 @@
             android:theme="@style/AppTheme">
 
         </activity>
-        <activity android:name=".activity.BuzhiCuotiActivity">
+        <activity android:name=".activity.BuzhiZuoyeActivity">
 
         </activity>
         <activity android:name=".activity.OneTimuActivity"
@@ -95,6 +94,9 @@
 
         </activity>
         <activity android:name=".activity.UpdateTikuActivity">
+
+        </activity>
+        <activity android:name=".activity.FeedbackActivity">
 
         </activity>
     </application>

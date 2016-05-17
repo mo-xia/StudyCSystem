@@ -4,7 +4,7 @@
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorPrimaryDark">@color/colorPrimary</item>
     </style>
     <!--<item name="android:textColorPrimary">@android:color/white</item>-->
 
@@ -26,7 +26,7 @@
     <style name="TrainingTheme" parent="AppTheme">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorTraining</item>
-        <item name="colorPrimaryDark">@color/colorTrainingDark</item>
+        <item name="colorPrimaryDark">@color/colorTraining</item>
     </style>
 
     <style name="TrainingTheme.NoActionBar">

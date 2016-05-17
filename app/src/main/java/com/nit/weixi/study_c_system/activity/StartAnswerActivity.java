@@ -2,7 +2,6 @@ package com.nit.weixi.study_c_system.activity;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
 
 import com.nit.weixi.study_c_system.fragment.QuestionFragment;
 import com.nit.weixi.study_c_system.tools.TeacherUtils;

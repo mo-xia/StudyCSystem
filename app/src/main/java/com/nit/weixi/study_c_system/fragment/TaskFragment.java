@@ -18,6 +18,7 @@ import com.nit.weixi.study_c_system.R;
 import com.nit.weixi.study_c_system.activity.TimuActivity;
 import com.nit.weixi.study_c_system.data.ZuoYeBean;
 import com.nit.weixi.study_c_system.tools.DownUtils;
+import com.nit.weixi.study_c_system.tools.MyConstants;
 import com.nit.weixi.study_c_system.tools.RestClient;
 import com.nit.weixi.study_c_system.tools.Tool;
 
@@ -28,6 +29,7 @@ import java.io.IOException;
 import cz.msebera.android.httpclient.Header;
 
 /**
+ * 课堂作业模块
  * Created by weixi on 2016/4/28.
  */
 public class TaskFragment extends Fragment implements View.OnClickListener {
@@ -69,12 +71,12 @@ public class TaskFragment extends Fragment implements View.OnClickListener {
                 Context.MODE_PRIVATE).getString("studate", "defValue");
         RequestParams params = new RequestParams();
         params.put("date", studate);
-        RestClient.get("/ktzy", params, new FileAsyncHttpResponseHandler(bacFile) {
+        RestClient.get(MyConstants.KTZY_URL, params, new FileAsyncHttpResponseHandler(bacFile) {
             @Override
             public void onFailure(int statusCode, Header[] headers, Throwable throwable, File file) {
                 Tool.backOnFailure(getActivity(), statusCode);
-                SharedPreferences lastfenshuSP = getActivity().getSharedPreferences("lastfenshu", Context.MODE_PRIVATE);
-                String lastFenshu = lastfenshuSP.getString("fenshu", "xx");
+                SharedPreferences lastfenshuSP = getActivity().getSharedPreferences(MyConstants.ZUOYE_SP_LASTFENSHU, Context.MODE_PRIVATE);
+                String lastFenshu = lastfenshuSP.getString(MyConstants.ZUOYE_SP_FENSHU, "xx");
                 tvGo.setText("本次作业 "+lastFenshu+"分");
                 tvGo.setEnabled(false);
             }
@@ -92,10 +94,10 @@ public class TaskFragment extends Fragment implements View.OnClickListener {
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
-                    editor = Tool.getEditor(getActivity(), "zuoyeSP");
+                    editor = Tool.getEditor(getActivity(), MyConstants.ZUOYE_SP);
                 } else {
-                    SharedPreferences lastfenshuSP = getActivity().getSharedPreferences("lastfenshu", Context.MODE_PRIVATE);
-                    String lastFenshu = lastfenshuSP.getString("fenshu", "默认分数");
+                    SharedPreferences lastfenshuSP = getActivity().getSharedPreferences(MyConstants.ZUOYE_SP_LASTFENSHU, Context.MODE_PRIVATE);
+                    String lastFenshu = lastfenshuSP.getString(MyConstants.ZUOYE_SP_FENSHU, "0");
                     tvGo.setText("本次作业 "+lastFenshu+"分");
                     tvGo.setEnabled(false);
                     Toast.makeText(getActivity(), "已是最新的课堂作业", Toast.LENGTH_SHORT).show();
@@ -128,6 +130,7 @@ public class TaskFragment extends Fragment implements View.OnClickListener {
         String other="task";
         intent.putExtra("tag",tag);
         intent.putExtra("other",other);
+        intent.putExtra("tishu",zuoYeBean.getTimulist().size()+"");
         intent.putExtra("timulist",zuoYeBean.getTimulist().toString());
         intent.putExtra("shijian",zuoYeBean.getTime());
         intent.putExtra("date",zuoYeBean.getDate());

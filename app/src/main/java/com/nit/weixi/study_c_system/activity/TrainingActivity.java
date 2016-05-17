@@ -7,6 +7,7 @@ import com.nit.weixi.study_c_system.tools.MyConstants;
 import com.nit.weixi.study_c_system.tools.Tool;
 
 /**
+ * 章节练习 章节列表
  * Created by weixi on 2016/3/30.
  */
 public class TrainingActivity  extends MyBaseActivity{

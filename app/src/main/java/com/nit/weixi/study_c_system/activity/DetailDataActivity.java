@@ -29,15 +29,14 @@ import cz.msebera.android.httpclient.Header;
 
 
 /**
- * 查看NewsFeeds or 文章详情
- *
- * @author jayin
+ * 文章详情activity
  */
 @SuppressLint("SetJavaScriptEnabled")
 public class DetailDataActivity extends MyBackActivity
         implements SwipeRefreshLayout.OnRefreshListener {
     public static final String EXTRA_LINK = "link";
     public static final String EXTRA_TITLE = "title";
+    public static final String EXTRA_TAG="tag";
 
     Toolbar mToolbar;
 
@@ -45,23 +44,25 @@ public class DetailDataActivity extends MyBackActivity
     WebView webview;
     String link;// 接受2种URL,一种是url,另一种文件路径path
     String title;
+    String tag;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        initData();
+        Tool.setMyTheme(this,tag);
         setContentView(R.layout.acty_detail);
         swipeRefreshLayout= (SwipeRefreshLayout) findViewById(R.id.swipeRefresh);
         webview= (WebView) findViewById(R.id.webview);
-        initData();
+
         initLayout();
     }
 
     protected void initData() {
-
         link = getIntent().getStringExtra(EXTRA_LINK);
         title = getIntent().getStringExtra(EXTRA_TITLE);
-
-        if (link == null || title == null ) {
+        tag=getIntent().getStringExtra(EXTRA_TAG);
+        if (link == null || title == null|| tag == null ) {
             finish();
         }
     }
@@ -97,22 +98,28 @@ public class DetailDataActivity extends MyBackActivity
         Tool.setRefreshing(swipeRefreshLayout, true);
     }
 
-    // 如果是网络链接就去加载刷新
+    /**
+     * 加载界面
+     */
     @Override public void onRefresh() {
         if (DownUtils.isURL(link)) {
+            //如果是一个url,则发起网络请求
             AsyncHttpClient client = new AsyncHttpClient();
             client.get(link, new AsyncHttpResponseHandler() {
                 @Override public void onStart() {
+                    //开启刷新
                     onPreRefresh();
                 }
 
                 @Override public void onSuccess(int statusCode,
                                                 Header[] headers, byte[] data) {
+                    //如果成功则把data数据显示
                     load(new String(data));
                 }
 
                 @Override public void onFailure(int statusCode,
                                                 Header[] headers, byte[] data, Throwable arg3) {
+                    //请求数据失败，显示Assets下的404.md
                     try {
                         load(DownUtils.readFile(getAssets().open("404.md")));
                     } catch (IOException e) {
@@ -121,25 +128,29 @@ public class DetailDataActivity extends MyBackActivity
                 }
 
                 @Override public void onFinish() {
+                    //加载完成，去掉加载显示
                     onPostRefresh();
                 }
 
             });
         } else {
-            // read file
+            // 如果是路径则开启一个本地异步任务
             new ReadFileTask(link).execute();
         }
 
     }
 
     /**
-     * 刷新完毕
+     * 网络加载完毕
      */
     private void onPostRefresh() {
         Tool.setRefreshing(swipeRefreshLayout, false);
-//        displayMenu(mMenu);
     }
 
+    /**
+     * 加载网络请求读到的内容
+     * @param content 内容
+     */
     private void load(String content) {
         try {
             String tpl = DownUtils.readFile(getAssets().open("preview.html"));
@@ -152,6 +163,9 @@ public class DetailDataActivity extends MyBackActivity
 
     }
 
+    /**
+     * 重写WebChromeClient
+     */
     class MyWebChromeClient extends WebChromeClient {
         @Override public void onProgressChanged(WebView view, int newProgress) {
         }
@@ -161,6 +175,9 @@ public class DetailDataActivity extends MyBackActivity
         }
     }
 
+    /**
+     * 重写WebViewClient
+     */
     class MyWebViewClient extends WebViewClient {
 
         @Override public void onLoadResource(WebView view, String url) {
@@ -195,21 +212,34 @@ public class DetailDataActivity extends MyBackActivity
         }
     }
 
+    /**
+     * 读取本地文本的异步任务，并且加载页面
+     */
     class ReadFileTask extends AsyncTask<Void, Void, String> {
-        private String path;
+        private String path; //本地文件的路径
 
         public ReadFileTask(String path) {
             this.path = path;
         }
 
+        /**
+         * 准备加载界面，显示刷新样式——转圈
+         */
         @Override protected void onPreExecute() {
             onPreRefresh();
         }
 
+        /**
+         * 读文件操作
+         * @param params params
+         * @return 读到的内容
+         */
         @Override protected String doInBackground(Void... params) {
             if(new File(this.path).exists()){
+                // 文件存在就读内容
                 return DownUtils.readFile(this.path);
             }else{
+                //不存在就读404
                 try {
                     return DownUtils.readFile(getAssets().open("404.md"));
                 } catch (IOException e) {
@@ -219,9 +249,14 @@ public class DetailDataActivity extends MyBackActivity
             return null;
         }
 
+
+        /**
+         * 加载数据
+         * @param result doInBackground 返回的结果
+         */
         @Override protected void onPostExecute(String result) {
             load(result);
-            onPostRefresh();
+            onPostRefresh(); //停止加载转圈
         }
 
     }

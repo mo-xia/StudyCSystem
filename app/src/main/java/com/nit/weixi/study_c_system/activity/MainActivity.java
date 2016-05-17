@@ -1,19 +1,12 @@
 package com.nit.weixi.study_c_system.activity;
 
-import android.app.AlertDialog;
-import android.app.Application;
 import android.app.ProgressDialog;
-import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.KeyEvent;
-import android.widget.Toast;
 
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
-import com.nit.weixi.study_c_system.R;
 import com.nit.weixi.study_c_system.data.MyApplication;
 import com.nit.weixi.study_c_system.tools.DownUtils;
 import com.nit.weixi.study_c_system.tools.MyConstants;
@@ -22,7 +15,6 @@ import com.nit.weixi.study_c_system.tools.Tool;
 import com.nit.weixi.study_c_system.tools.UpdateUtils;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -33,18 +25,18 @@ import cz.msebera.android.httpclient.Header;
 
 public class MainActivity extends MyBaseActivity {
 
-    private ProgressDialog mProgressDialog;
+    private ProgressDialog mProgressDialog; //发现题库 ，点击更新时的进度条
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         fmName = MyConstants.FRAGMENT_HOME;
         MyApplication application = (MyApplication) getApplication();
+        Tool.setFragment(this, MyConstants.FRAGMENT_HOME);
         if (!application.isPushUpdate()){
             mProgressDialog=new ProgressDialog(this);
             UpdateUtils.findTikuUpdate(this,mProgressDialog);
             application.setPushUpdate(true);
         }
-        Tool.setFragment(this, MyConstants.FRAGMENT_HOME);
     }
 
     @Override
@@ -53,27 +45,27 @@ public class MainActivity extends MyBaseActivity {
     }
 
     @Override
-    protected void onDestroy() {
+    protected void onDestroy() { //MainActivity 销毁时上传要提问的问题列表
         super.onDestroy();
         String filePath= DownUtils.getRootPath(this);
-        final File file=new File(filePath,"tiwen.txt");
-        final File finishTiwen=new File(filePath,"finishtiwen.txt");
+        final File file=new File(filePath,MyConstants.TIWEN_FILE_NAME);
+        final File finishTiwen=new File(filePath,MyConstants.FINISHTIWEN_FILE_NAME);
         if (file.length()==0){
             return;
         }
-        final List<String> tiwenList = Tool.getListFromFile(this, "tiwen.txt");
+        final List<String> tiwenList = Tool.getListFromFile(this, MyConstants.TIWEN_FILE_NAME);
         List<String> finishList;
         if (finishTiwen.length()==0){
             finishList=new ArrayList<String>();
         }else {
-            finishList = Tool.getListFromFile(this, "finishtiwen.txt");
+            finishList = Tool.getListFromFile(this, MyConstants.FINISHTIWEN_FILE_NAME);
         }
         if (tiwenList.equals(finishList)){
             return;
         }
         RequestParams params=new RequestParams();
         params.put("tiwen",tiwenList.toString());
-        RestClient.get("/tiwen", params, new AsyncHttpResponseHandler() {
+        RestClient.get(MyConstants.TIWEN_URL, params, new AsyncHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
 
@@ -94,6 +86,12 @@ public class MainActivity extends MyBaseActivity {
         });
     }
 
+    /**
+     * 当前activity 为mainActivity且不为主页fragment时，点击back键回到主页
+     * @param keyCode
+     * @param event
+     * @return
+     */
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK&&!fmName.equals("home")) {

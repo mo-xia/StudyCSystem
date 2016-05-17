@@ -3,6 +3,7 @@ package com.nit.weixi.study_c_system.fragment;
 import android.app.Fragment;
 
 /**
+ * fragment工厂，根据名字创建fragment
  * Created by weixi on 2016/3/30.
  */
 public class FragmentFactory extends Fragment {

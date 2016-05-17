@@ -15,19 +15,12 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.nit.weixi.study_c_system.R;
-import com.nit.weixi.study_c_system.data.TiMuBean;
 import com.nit.weixi.study_c_system.data.ZjCursorAdapter;
 import com.nit.weixi.study_c_system.tools.MyConstants;
 import com.nit.weixi.study_c_system.tools.Tool;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.util.ArrayList;
-import java.util.HashSet;
-
 /**
+ * 具体每一章的题目信息
  * Created by weixi on 2016/3/31.
  */
 public class ZhangJieActivity extends AppCompatActivity implements AdapterView.OnItemClickListener, View.OnClickListener {
@@ -47,11 +40,9 @@ public class ZhangJieActivity extends AppCompatActivity implements AdapterView.O
             if (msg.what==1){
                 Cursor myCursor= (Cursor) msg.obj;
                 tishu.setText(myCursor.getCount() + "");
-
                 adapter=new ZjCursorAdapter(zja,myCursor);
                 String wanchengNum = adapter.getWanchengNum(myCursor)+"";
                 wancheng.setText(wanchengNum);
-
                 lv.setAdapter(adapter);
             }
         }
@@ -85,12 +76,15 @@ public class ZhangJieActivity extends AppCompatActivity implements AdapterView.O
         return pos;
     }
 
+    /**
+     * 查询数据库获得对应章节的题目
+     */
     private void obtainData(){
         new Thread(new Runnable() {
             @Override
             public void run() {
                 SQLiteDatabase db = Tool.getDataBase(zja);
-                Cursor cursor = db.query(MyConstants.TABLE_TIMU, new String[]{"_id","zhubiaoti"}, "zhangjie_id=?",
+                Cursor cursor = db.query(MyConstants.TABLE_TIMU_NAME, new String[]{"_id","zhubiaoti"}, "zhangjie_id=?",
                         new String[]{zhangjieId + ""}, null, null, null);
                 //Tool.printCursor(cursor);
                 Message msg=Message.obtain();
@@ -102,6 +96,9 @@ public class ZhangJieActivity extends AppCompatActivity implements AdapterView.O
     }
 
 
+    /**
+     * 根据位置调到题目详情界面的那个位置的题目
+     */
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         Intent intent=new Intent(this,TimuActivity.class);
@@ -112,6 +109,10 @@ public class ZhangJieActivity extends AppCompatActivity implements AdapterView.O
         startActivity(intent);
     }
 
+    /**
+     * 从第一题开始做题
+     * @param v 控件
+     */
     @Override
     public void onClick(View v) {
         Intent intent=new Intent(this,TimuActivity.class);

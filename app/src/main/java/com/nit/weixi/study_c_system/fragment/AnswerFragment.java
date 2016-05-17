@@ -23,6 +23,7 @@ import com.nit.weixi.study_c_system.R;
 import com.nit.weixi.study_c_system.activity.OneTimuActivity;
 import com.nit.weixi.study_c_system.data.AnswerBean;
 import com.nit.weixi.study_c_system.data.MyRecyclerViewAdapter;
+import com.nit.weixi.study_c_system.tools.MyConstants;
 import com.nit.weixi.study_c_system.tools.RestClient;
 import com.nit.weixi.study_c_system.tools.Tool;
 import com.nit.weixi.study_c_system.views.CircleTextView;
@@ -37,6 +38,7 @@ import java.util.Random;
 import cz.msebera.android.httpclient.Header;
 
 /**
+ * 当前学生提问所对应的回答
  * Created by weixi on 2016/3/30.
  */
 public class AnswerFragment extends Fragment {
@@ -70,12 +72,15 @@ public class AnswerFragment extends Fragment {
         return view;
     }
 
+    /**
+     * 加载老师的answer
+     */
     private void loadAnswer(){
         RequestParams params=new RequestParams();
         params.put("dayitag","getanswer");
-        List<String> list = Tool.getListFromFile(getActivity(), "finishtiwen.txt");
+        List<String> list = Tool.getListFromFile(getActivity(), MyConstants.FINISHTIWEN_FILE_NAME);
         params.put("timulist",list.toString());
-        RestClient.get("/dayi", params, new AsyncHttpResponseHandler() {
+        RestClient.get(MyConstants.DAYI_URL, params, new AsyncHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
                 String answerJson=new String(responseBody);
@@ -84,7 +89,7 @@ public class AnswerFragment extends Fragment {
                     answerList=Arrays.asList(answers);
                     adapter.notifyDataSetChanged();
                 }else {
-                    System.out.println("list为空");
+                   Tool.displayEmpty4Server(getActivity());
                 }
             }
 

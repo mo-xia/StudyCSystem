@@ -1,8 +1,5 @@
 package com.nit.weixi.study_c_system.activity;
 
-import android.app.Fragment;
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -22,15 +19,20 @@ public class TeacherClientActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //根据tag 设置不同的fragment
         TeacherUtils.setTeacherFragment(this,new HomeFragment(),"teacher");
     }
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.main,menu);
         return super.onCreateOptionsMenu(menu);
     }
 
+    /**
+     * 跳转到关于界面
+     * @param item about
+     * @return true
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId()==R.id.about){

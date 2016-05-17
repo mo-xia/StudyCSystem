@@ -14,12 +14,13 @@ import com.nit.weixi.study_c_system.R;
 import com.nit.weixi.study_c_system.activity.TimuActivity;
 
 /**
+ * 当前学生的系统考试
  * Created by weixi on 2016/4/8.
  */
 public class TestFragment extends Fragment implements View.OnClickListener {
 
-    EditText etTishu;
-    EditText etShijian;
+    EditText etTishu; //题数
+    EditText etShijian; //要求完成的时间
 
     @Nullable
     @Override

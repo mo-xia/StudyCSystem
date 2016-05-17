@@ -11,12 +11,14 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.nit.weixi.study_c_system.R;
+import com.nit.weixi.study_c_system.tools.MyConstants;
 import com.nit.weixi.study_c_system.tools.Tool;
 
 import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * 当前学生的成绩记录
  * Created by weixi on 2016/3/30.
  */
 public class RecordFragment extends Fragment{
@@ -25,7 +27,7 @@ public class RecordFragment extends Fragment{
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        chengjiList= Tool.getListFromFile(getActivity(),"chengji.txt");
+        chengjiList= Tool.getListFromFile(getActivity(), MyConstants.CHENGJI_FILE_NAME);
         if (chengjiList.size()==0){
             TextView tv=new TextView(container.getContext());
             tv.setText("现在还没有成绩");
@@ -55,7 +57,6 @@ public class RecordFragment extends Fragment{
         public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
             MyViewHolder mViewHolder = (MyViewHolder) holder;
             String chengjiStr=chengjiList.get(position);
-            System.out.println("**********"+chengjiStr);
             String[] strings = chengjiStr.split("##");
             String chengji=strings[0];
             String date=strings[1];

@@ -14,6 +14,7 @@ import com.nit.weixi.study_c_system.R;
 import com.nit.weixi.study_c_system.data.FileTreeAdapter;
 import com.nit.weixi.study_c_system.data.FileTreeEntity;
 import com.nit.weixi.study_c_system.tools.DownUtils;
+import com.nit.weixi.study_c_system.tools.MyConstants;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -140,6 +141,7 @@ public class FileTreeActivity extends AppCompatActivity implements AdapterView.O
                 //System.out.println("link: "+link);
                 String title = DownUtils.getResouceTitle(data.get(position).getRname());
                 Intent intent = new Intent(this, DetailDataActivity.class);
+                intent.putExtra(DetailDataActivity.EXTRA_TAG, MyConstants.FRAGMENT_DATA);
                 intent.putExtra(DetailDataActivity.EXTRA_LINK, link);
                 intent.putExtra(DetailDataActivity.EXTRA_TITLE, title);
                 //开启详情界面activity

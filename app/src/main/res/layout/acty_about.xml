@@ -33,7 +33,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="本项目旨在帮助学生更有效地学习C语言，同时为老师提供一个了解学生学习状况的快速方式。"/>
+                android:text="本项目旨在帮助学生更有效地学习C语言，同时为老师提供一个了解学生学习状况的快速方式,所有相关资料均来自网络，如有侵权行为，请联系作者删除。"/>
             <LinearLayout
                 android:layout_marginTop="16dp"
                 android:orientation="horizontal"
@@ -45,9 +45,11 @@
                     android:layout_height="wrap_content"
                     android:text="项目地址："/>
                 <TextView
+                    android:id="@+id/tv_app_html"
                     android:layout_marginStart="8dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:autoLink="all"
                     android:text="https://github.com/luofeng0xia/StudyCSystem"/>
             </LinearLayout>
             <LinearLayout

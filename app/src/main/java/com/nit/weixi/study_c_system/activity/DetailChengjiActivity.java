@@ -15,6 +15,7 @@ import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 import com.nit.weixi.study_c_system.R;
 import com.nit.weixi.study_c_system.data.ChengJiBean;
+import com.nit.weixi.study_c_system.tools.MyConstants;
 import com.nit.weixi.study_c_system.tools.RestClient;
 import com.nit.weixi.study_c_system.tools.Tool;
 
@@ -25,11 +26,12 @@ import java.util.List;
 import cz.msebera.android.httpclient.Header;
 
 /**
+ * 学生成绩详情模块
  * Created by weixi on 2016/5/10.
  */
 public class DetailChengjiActivity extends MyBackActivity {
 
-    List<ChengJiBean> chengjiList;
+    List<ChengJiBean> chengjiList; //一个成绩列表
     MyChengjiAdapter adapter;
     String title;
     @Override
@@ -49,21 +51,23 @@ public class DetailChengjiActivity extends MyBackActivity {
         rl.setAdapter(adapter);
     }
 
+    /**
+     * 加载一个详细的成绩列表
+     */
     private void loadChengjiList(){
         RequestParams params=new RequestParams();
         params.put("tag","chengjilist");
         params.put("title",title);
-        RestClient.get("/chengji", params, new AsyncHttpResponseHandler() {
+        RestClient.get(MyConstants.CHENGJI_URL, params, new AsyncHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
                 String chengjiJson=new String(responseBody);
                 if (!chengjiJson.equals("")) {
                     ChengJiBean[] chengjis=new Gson().fromJson(chengjiJson,ChengJiBean[].class);
                     chengjiList= Arrays.asList(chengjis);
-                    System.out.println(chengjiList);
                     adapter.notifyDataSetChanged();
                 }else {
-                    System.out.println("list为空");
+                    Tool.displayEmpty4Server(DetailChengjiActivity.this);
                 }
             }
 

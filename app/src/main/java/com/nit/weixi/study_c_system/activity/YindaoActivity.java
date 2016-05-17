@@ -12,14 +12,15 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.ImageView;
 
-import com.nit.weixi.study_c_system.data.MyApplication;
 import com.nit.weixi.study_c_system.pager.LoginFragment;
 import com.nit.weixi.study_c_system.pager.SecFragment;
 import com.nit.weixi.study_c_system.R;
 import com.nit.weixi.study_c_system.tools.DBFromAssets;
+import com.nit.weixi.study_c_system.tools.MDFilesFromAssets;
 import com.nit.weixi.study_c_system.tools.MyConstants;
 
 /**
+ * 引导界面
  * Created by weixi on 2016/4/16.
  */
 public class YindaoActivity extends AppCompatActivity implements ViewPager.OnPageChangeListener, View.OnClickListener {
@@ -33,7 +34,7 @@ public class YindaoActivity extends AppCompatActivity implements ViewPager.OnPag
     ImageView ivLogin;
     ImageView ivUser;
 
-    int curPos;
+    int curPos; //当前位置
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -42,12 +43,19 @@ public class YindaoActivity extends AppCompatActivity implements ViewPager.OnPag
         SecFragment.tag="student";
         myHandler=new MyHandler();
         initLayout();
-        new Thread(new Runnable() {
+
+        new Thread(new Runnable() { //开启一个线程把assets目录下的资源文件存到应用目录下
             @Override
             public void run() {
-                DBFromAssets.openDatabase(YindaoActivity.this, MyConstants.dbName);
+                //题库
+                DBFromAssets.openDatabase(YindaoActivity.this, MyConstants.DB_NAME);
+                //开源支持.md文件
+                MDFilesFromAssets.writeMDFile2Storage(YindaoActivity.this, MyConstants.OPENSOURCENAME);
+                //使用手册.md文件
+                MDFilesFromAssets.writeMDFile2Storage(YindaoActivity.this, MyConstants.HELPBOOKNAME);
             }
         }).start();
+
     }
 
     private void initLayout() {
@@ -68,19 +76,24 @@ public class YindaoActivity extends AppCompatActivity implements ViewPager.OnPag
         pager.addOnPageChangeListener(this);
     }
 
+    /**
+     * 设置下方小点点的状态
+     * @param position 点击或移动到的位置
+     */
     private void setPoint(int position){
 
         imageViews[curPos].setEnabled(true);
         imageViews[position].setEnabled(false);
-        curPos=position;
+        curPos=position; //设置后，把点击的位置赋值给当前位置
     }
 
+    //根据位置创建fragment
     private Fragment createFragment(int position){
         Fragment f;
         if (position==0){
-            f=new LoginFragment();
+            f=new LoginFragment(); //选择身份
         }else {
-            f=new SecFragment();
+            f=new SecFragment(); //具体信息
         }
         return f;
     }
@@ -103,18 +116,13 @@ public class YindaoActivity extends AppCompatActivity implements ViewPager.OnPag
     @Override
     public void onClick(View v) {
         int pos= (int) v.getTag();
-        switch (v.getId()){
-            case R.id.iv_point_login:
-                setPoint(pos);
-                pager.setCurrentItem(pos);
-                break;
-            case R.id.iv_point_user:
-                setPoint(pos);
-                pager.setCurrentItem(pos);
-                break;
-        }
+        setPoint(pos);
+        pager.setCurrentItem(pos);
     }
 
+    /**
+     * 通知adapter刷新状态
+     */
     public static class MyHandler extends Handler {
          @Override
          public void handleMessage(Message msg) {

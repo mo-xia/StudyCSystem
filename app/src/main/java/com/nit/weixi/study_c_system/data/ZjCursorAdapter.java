@@ -31,8 +31,8 @@ public class ZjCursorAdapter extends CursorAdapter {
     public ZjCursorAdapter(Context context, Cursor c) {
         super(context, c);
 
-        cuotiList = Tool.getListFromFile(context,"cuoti.txt");
-        zhengqueList = Tool.getListFromFile(context,"zhengque.txt");
+        cuotiList = Tool.getListFromFile(context,MyConstants.CUOTI_FILE_NAME);
+        zhengqueList = Tool.getListFromFile(context,MyConstants.ZHENGQUE_FILE_NAME);
     }
 
     public  int getWanchengNum(Cursor cursor) {
