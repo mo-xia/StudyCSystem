@@ -32,6 +32,8 @@ import com.nit.weixi.study_c_system.tools.Tool;
 import com.nit.weixi.study_c_system.tools.UpdateUtils;
 import com.nit.weixi.study_c_system.views.UpdateTikuDialog;
 
+import java.io.File;
+
 /**
  * 设置与帮助界面
  * Created by weixi on 2016/3/30.
@@ -127,13 +129,16 @@ public class SettingFragment extends Fragment implements View.OnClickListener {
                     public void onClick(DialogInterface dialog, int which) {
                         Intent yindaoIntent=new Intent(context, YindaoActivity.class);
                         Tool.cleanSharedPreference(context);
+                        File zuoye=new File(DownUtils.getRootPath(context)+"/zuoye");
+                        Tool.deleteFilesByDirectory(zuoye);
+                        Tool.deleteFilesByDirectory(context.getCacheDir());
                         Tool.deleteFile(context, MyConstants.CUOTI_FILE_NAME);
                         Tool.deleteFile(context, MyConstants.TIWEN_FILE_NAME);
                         Tool.deleteFile(context, MyConstants.ZHENGQUE_FILE_NAME);
                         Tool.deleteFile(context, MyConstants.FINISHTIWEN_FILE_NAME);
                         Tool.deleteFile(context,MyConstants.CHENGJI_FILE_NAME);
-                        startActivity(yindaoIntent);
                         getActivity().finish();
+                        startActivity(yindaoIntent);
                     }
                 });
                 alertDialog.show();

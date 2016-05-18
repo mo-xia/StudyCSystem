@@ -18,6 +18,7 @@ public class MyConstants {
     public static final String TIKU_SP_VERSION="tiku"; //题库当前版本
     public static final String TIKU_SP_LASTVERSION="lastversion"; //题库最新版本
     public static final String ZUOYE_SP="zuoye"; //课堂作业相关
+    public static final String ZUOYE_SP_LASTDATE="date"; //课堂作业相关
     public static final String ZUOYE_SP_FENSHU="fenshu"; //课堂作业相关
     public static final String ZUOYE_SP_LASTFENSHU="lastfenshu"; //课堂作业最后分数
 

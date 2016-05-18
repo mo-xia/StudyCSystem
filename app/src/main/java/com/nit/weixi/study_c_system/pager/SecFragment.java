@@ -156,7 +156,7 @@ public class SecFragment extends Fragment implements View.OnClickListener {
                     userEditor.commit();
                     Tool.saveBitmap(getActivity(),bitmap); //把学生头像存到应用目录下
 
-                editor.putString(MyConstants.LOGIN_SP_SHENFEN,"student").commit();
+                    editor.putString(MyConstants.LOGIN_SP_SHENFEN,"student").commit();
                     startActivity(intent);
                     getActivity().finish();
                 }

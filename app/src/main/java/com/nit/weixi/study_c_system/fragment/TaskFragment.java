@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -67,16 +68,17 @@ public class TaskFragment extends Fragment implements View.OnClickListener {
         final String fileName = "zuoye.json";
         String bacFileName = "bac" + fileName;
         final File bacFile = new File(zuoyePath, bacFileName);
-        String studate = getActivity().getSharedPreferences("zuoyeSP",
-                Context.MODE_PRIVATE).getString("studate", "defValue");
+        String studate = getActivity().getSharedPreferences(MyConstants.ZUOYE_SP,
+                Context.MODE_PRIVATE).getString(MyConstants.ZUOYE_SP_LASTDATE, "defValue");
+        Log.d("date",studate);
         RequestParams params = new RequestParams();
         params.put("date", studate);
         RestClient.get(MyConstants.KTZY_URL, params, new FileAsyncHttpResponseHandler(bacFile) {
             @Override
             public void onFailure(int statusCode, Header[] headers, Throwable throwable, File file) {
                 Tool.backOnFailure(getActivity(), statusCode);
-                SharedPreferences lastfenshuSP = getActivity().getSharedPreferences(MyConstants.ZUOYE_SP_LASTFENSHU, Context.MODE_PRIVATE);
-                String lastFenshu = lastfenshuSP.getString(MyConstants.ZUOYE_SP_FENSHU, "xx");
+                SharedPreferences lastfenshuSP = getActivity().getSharedPreferences(MyConstants.ZUOYE_SP, Context.MODE_PRIVATE);
+                String lastFenshu = lastfenshuSP.getString(MyConstants.ZUOYE_SP_LASTFENSHU, "xx");
                 tvGo.setText("本次作业 "+lastFenshu+"分");
                 tvGo.setEnabled(false);
             }
@@ -96,7 +98,7 @@ public class TaskFragment extends Fragment implements View.OnClickListener {
                     }
                     editor = Tool.getEditor(getActivity(), MyConstants.ZUOYE_SP);
                 } else {
-                    SharedPreferences lastfenshuSP = getActivity().getSharedPreferences(MyConstants.ZUOYE_SP_LASTFENSHU, Context.MODE_PRIVATE);
+                    SharedPreferences lastfenshuSP = getActivity().getSharedPreferences(MyConstants.ZUOYE_SP, Context.MODE_PRIVATE);
                     String lastFenshu = lastfenshuSP.getString(MyConstants.ZUOYE_SP_FENSHU, "0");
                     tvGo.setText("本次作业 "+lastFenshu+"分");
                     tvGo.setEnabled(false);
@@ -105,7 +107,7 @@ public class TaskFragment extends Fragment implements View.OnClickListener {
                 bacFile.delete();
                 zuoYeBean = ZuoYeBean.create(DownUtils.readFile(zyFile));
                 if (editor != null) {
-                    editor.putString("studate", zuoYeBean.getDate()).commit();
+                    editor.putString(MyConstants.ZUOYE_SP_LASTDATE, zuoYeBean.getDate()).commit();
                 }
                 if (zuoYeBean!=null) {
                     tvCurDate.setText(zuoYeBean.getDate());

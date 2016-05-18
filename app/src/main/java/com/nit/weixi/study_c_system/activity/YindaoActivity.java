@@ -27,7 +27,7 @@ public class YindaoActivity extends AppCompatActivity implements ViewPager.OnPag
 
     ViewPager pager;
     static MyPagerAdapter adapter;
-    public static int WHAT=11;
+    public static final int WHAT=11;
     public static MyHandler myHandler;
 
     ImageView[] imageViews;
@@ -127,7 +127,7 @@ public class YindaoActivity extends AppCompatActivity implements ViewPager.OnPag
          @Override
          public void handleMessage(Message msg) {
              switch (msg.what){
-                 case 11:
+                 case WHAT:
                      adapter.notifyDataSetChanged();
              }
          }

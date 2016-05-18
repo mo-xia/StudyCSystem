@@ -95,9 +95,9 @@ public class DetailChengjiActivity extends MyBackActivity {
             ChengjiListHolder mViewHolder= (ChengjiListHolder) holder;
             int color = Tool.getColor(context, R.color.colorPrimary);
             if (position==0){
-                mViewHolder.tvStuId.setBackgroundColor(color);
+                /*mViewHolder.tvStuId.setBackgroundColor(color);
                 mViewHolder.tvStuName.setBackgroundColor(color);
-                mViewHolder.tvStuFenshu.setBackgroundColor(color);
+                mViewHolder.tvStuFenshu.setBackgroundColor(color);*/
                 mViewHolder.tvStuId.setText("学号");
                 mViewHolder.tvStuName.setText("姓名");
                 mViewHolder.tvStuFenshu.setText("分数");

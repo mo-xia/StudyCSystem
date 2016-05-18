@@ -90,9 +90,9 @@ public class UpdateTikuActivity extends MyBackActivity implements View.OnClickLi
                         @Override
                         public void doUpdate() {
                             //获得当前题库版本 +1后上传
-                            SharedPreferences sp = context.getSharedPreferences(MyConstants.TIKU_SP, MODE_PRIVATE);
+                            final SharedPreferences sp = context.getSharedPreferences(MyConstants.TIKU_SP, MODE_PRIVATE);
                             int verInt=Integer.parseInt(sp.getString(MyConstants.TIKU_SP_VERSION, "0"));
-                            String version = verInt+1+"";
+                            final String version = verInt+1+"";
                             RequestParams params=new RequestParams();
                             params.put("version",version);
                             try {
@@ -129,6 +129,7 @@ public class UpdateTikuActivity extends MyBackActivity implements View.OnClickLi
                                     selectFile.setEnabled(true);
                                     mFilePath="";
                                     UpdateUtils.replaceDBFile(file,context); //更新老师自己的题库文件
+                                    sp.edit().putString(MyConstants.TIKU_SP_VERSION,version).apply(); //更新自己题库的版本号
                                     Toast.makeText(context,"已成功上传新的题库，可以提醒学生更新",Toast.LENGTH_SHORT).show();
                                 }
 

@@ -116,7 +116,7 @@ public class TimuActivity extends AppCompatActivity {
         }
 
         /**
-         * 每经过 millisUntilFinished 做什么操作
+         * 每经过 countDownInterval 做什么操作
          * @param millisUntilFinished 总时长
          */
         @Override
@@ -350,6 +350,9 @@ public class TimuActivity extends AppCompatActivity {
                     Toast.makeText(context, "已将问题提交，请稍后到老师答疑板块寻找详细解答", Toast.LENGTH_SHORT).show();
                     break;
                 case R.id.btn_jiaojuan:  // 处理点击交卷的响应事件
+                    if (timer!=null){
+                        timer.cancel();
+                    }
                     clickJiaojuan();
                     break;
             }
@@ -482,9 +485,10 @@ public class TimuActivity extends AppCompatActivity {
         chengjiList.add(chengji);
         String userNum;
         if (isTask) {
-            SharedPreferences user = getSharedPreferences("user", MODE_PRIVATE);
-            String userName = user.getString("username", "Studio");
-            userNum = user.getString("usernum", "20140920");
+
+            SharedPreferences user = getSharedPreferences(MyConstants.STUDENT_SP, MODE_PRIVATE);
+            String userName = user.getString(MyConstants.STUDENT_SP_NAME, "Studio");
+            userNum = user.getString(MyConstants.STUDENT_SP_NUMBER, "20140920");
             JSONObject json = new JSONObject();
             try {
                 json.put("stuName", userName);
@@ -548,7 +552,8 @@ public class TimuActivity extends AppCompatActivity {
                 public void onClick(DialogInterface dialog, int which) {
                     //System.out.println("size:"+cuotiList.size());
                     //判断当前cuotiList中是否有题目，防止交白卷的
-                    if (cuotiList.size() > 0) { // 将错题作为查询数据库的标记，重新加载当前Activity
+                    if (cuotiList.size() > 0) {
+                        // 将错题作为查询数据库的标记，重新加载当前Activity
                         String[] cuotiTest = cuotiList.toArray(new String[cuotiList.size() - 1]);
                         Intent intent = new Intent(context, TimuActivity.class);
                         intent.putExtra("tag", "cuoti");

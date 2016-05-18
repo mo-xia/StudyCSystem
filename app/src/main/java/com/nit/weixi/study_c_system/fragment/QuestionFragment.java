@@ -24,8 +24,10 @@ import com.nit.weixi.study_c_system.tools.Tool;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import cz.msebera.android.httpclient.Header;
 
@@ -39,6 +41,7 @@ public class QuestionFragment extends Fragment {
     MyQuestionAdapter adapter;
     Map<String, List<String>> wentiMap;
     String tag;
+    int itemSize;
 
     @Nullable
     @Override
@@ -51,6 +54,9 @@ public class QuestionFragment extends Fragment {
         } else { //question
             tag = "";
             list = Tool.getListFromFile(getActivity(), MyConstants.CUOTI_FILE_NAME);
+            Set<String> tempSet=new HashSet<String>();
+            tempSet.addAll(list);
+            itemSize=tempSet.size();
             getWentiMap();
             if (list.size() == 0) {
                 TextView tv = new TextView(container.getContext());
@@ -68,7 +74,7 @@ public class QuestionFragment extends Fragment {
             @Override
             public void onItemClick(View view, int position) {
                 Intent intent = new Intent(getActivity(), OneTimuActivity.class);
-                intent.putExtra("tihao", list.get(position));
+                intent.putExtra("tihao", wentiMap.get("timuid").get(position));
                 intent.putExtra("tag", tag);
                 startActivity(intent);
             }
@@ -95,10 +101,11 @@ public class QuestionFragment extends Fragment {
                          ) {
                         list.add(s.trim());
                     }
+                    itemSize=list.size();
                     getWentiMap();
                     adapter.notifyDataSetChanged();  //获得新的list后更新界面
                 }else {
-                    System.out.println("list为空");
+                    Tool.displayEmpty4Server(getActivity());
                 }
             }
 
@@ -163,7 +170,7 @@ public class QuestionFragment extends Fragment {
 
         @Override
         public int getItemCount() {
-            return list.size();
+            return itemSize;
         }
     }
 
