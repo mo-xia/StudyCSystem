@@ -5,6 +5,8 @@
 ##Run Environment
 Min SDK verison 21
 
+Compile Sdk Version 23
+
 Android Studio version 2.1 final
 
 Gradle version 2.10
