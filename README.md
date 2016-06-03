@@ -7,7 +7,7 @@ Min SDK verison 21
 
 Android Studio version 2.1 final
 
-Gradle version 2.1.0
+Gradle version 2.10
 
 ##项目结构
 * 服务器：该项目的服务器是一个依托Android Service的手机app。链接如下[https://github.com/luofeng0xia/ResourceServer/](https://github.com/luofeng0xia/ResourceServer/ "StudyCSystem服务器")
